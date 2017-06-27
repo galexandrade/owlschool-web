@@ -1,7 +1,8 @@
 import {Component} from '@angular/core';
 import {FormGroup, AbstractControl, FormBuilder, Validators} from '@angular/forms';
 import { Router } from '@angular/router';
-import { UserService } from '../../services/user.service';
+
+import { AuthService } from '../../core/auth.service';
 
 @Component({
   selector: 'login',
@@ -15,10 +16,10 @@ export class Login {
   public password:AbstractControl;
   public submitted: boolean = false;
 
-  constructor(private router: Router, fb:FormBuilder, private userService: UserService) {
+  constructor(private router: Router, fb:FormBuilder, private authService: AuthService) {
     this.form = fb.group({
-      'email': ['', Validators.compose([Validators.required, Validators.minLength(4)])],
-      'password': ['', Validators.compose([Validators.required, Validators.minLength(4)])]
+      'email': ['', Validators.compose([Validators.required, Validators.minLength(3)])],
+      'password': ['', Validators.compose([Validators.required, Validators.minLength(3)])]
     });
 
     this.email = this.form.controls['email'];
@@ -28,8 +29,12 @@ export class Login {
   public onSubmit(values: Object): void {
     this.submitted = true;
     if (this.form.valid) {
-      this.userService.logIn(this.email.value, this.password.value);
-      //this.router.navigate(['/pages']);
+      this.authService.login(this.email.value, this.password.value).subscribe((data) => {
+        if(this.authService.loggedIn()){
+          let redirect = this.authService.redirectUrl ? this.authService.redirectUrl : '/pages';
+          this.router.navigate([redirect]);
+        }
+      });
     }
   }
 }
