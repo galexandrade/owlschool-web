@@ -1,0 +1,28 @@
+  <ba-card baCardClass="with-scroll">
+    <div class="row class_card">
+      <div class="col-8">
+        <h5>Pré 1B</h5>
+        <table>
+          <tbody>
+            <tr>
+              <td class="text-right">Teacher:</td>
+              <td>Juliane R. Andrade</td>
+            </tr>
+            <tr>
+              <td class="text-right">Period:</td>
+              <td>Morning</td>
+            </tr>
+            <tr>
+              <td class="text-right">Students:</td>
+              <td>22</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="col-4">
+        <img src="{{ ( 'Vlad' | baProfilePicture ) }}">
+        <button routerLink="/pages/management/class" type="button" class="btn btn-success btn-block btn-sm">Edit</button>
+        <button routerLink="/pages/management/class-view" type="button" class="btn btn-info btn-block btn-sm">View</button>
+      </div>
+    </div>
+  </ba-card>

@@ -1,0 +1,27 @@
+.upload-image{
+    border: 3px dashed rgba(#FFF, 0.5);
+    margin-bottom: 5px;
+    padding: 10px;
+    span{
+        margin-top: 8px;
+        opacity: 0.4;
+    }
+}
+
+.event_image{
+    width: 100%;
+    border: 5px solid white;
+    max-height: 336px;
+    margin-top: 5px;
+}
+
+a.remove_image{
+  font-size: 30px;
+  color: red;
+  position: absolute;
+  right: 25px;
+  top: 10px;
+  :hover{
+      font-size: 33px;
+  }
+}

@@ -1,0 +1,14 @@
+.student_card img{
+    width: 100%;
+    border-radius: 50%;
+}
+
+.student_card table tr td:nth-child(2){
+    font-weight: normal;
+    font-size: 10pt;
+    color: azure;
+}
+
+.student_card button{
+    margin-top: 4px;
+}

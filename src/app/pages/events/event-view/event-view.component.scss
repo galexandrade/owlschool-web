@@ -1,0 +1,24 @@
+.upload-image{
+    border: 3px dashed rgba(#FFF, 0.5);
+    margin-bottom: 5px;
+    padding: 10px;
+    span{
+        margin-top: 8px;
+        opacity: 0.4;
+    }
+}
+
+.img-event{
+    width: 100%;
+    max-height: 336px;
+}
+
+.event-due{
+    font-size: 16pt;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+.event-writer{
+    margin-top: 10px;
+}

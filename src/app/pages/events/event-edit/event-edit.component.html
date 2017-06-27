@@ -1,0 +1,41 @@
+<div class="row">
+  <div class="col-md-12">
+    <ba-card baCardClass="with-scroll">
+      <div class="form-group">
+        <label for="title" translate>event.title</label>
+        <input type="text" class="form-control" id="title" placeholder="{{'event.title' | translate}}">
+      </div>
+      <div class="form-group">
+        <label for="title" translate>event.date</label>
+        <input type="date" class="form-control" id="date" placeholder="{{'event.date' | translate}}">
+      </div>
+      <div class="form-group">
+        <label for="title" translate>event.description</label>
+        <ckeditor [(ngModel)]="ckeditorContent" [config]="config"></ckeditor>
+      </div>
+      <button type="submit" class="btn btn-success" translate>form.save</button>
+    </ba-card>
+  </div>
+  <div class="col-md-12">
+    <ba-card baCardClass="with-scroll" title="{{'event.images' | translate}}">
+      <div class="row">
+        <div class="col-md-12 upload-image">
+          <span class="pull-left" translate>form.drag_here</span>
+          <button type="submit" class="btn btn-success pull-right" translate>form.upload</button>
+        </div>
+        <div class="col-12">
+            <img src="{{this.event_images + 'event1.jpg'}}" class="event_image"/>
+            <a href="#" class="remove_image pull-right" title="{{'form.remove' | translate}}">
+              <i class="ion-close-circled"></i>
+            </a>            
+        </div>
+        <div class="col-12">
+            <img src="{{this.event_images + 'event2.jpg'}}" class="event_image"/>
+            <a href="#" class="remove_image pull-right" title="{{'form.remove' | translate}}">
+              <i class="ion-close-circled"></i>
+            </a>            
+        </div>
+      </div>
+    </ba-card>
+  </div>
+</div>

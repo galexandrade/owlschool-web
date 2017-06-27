@@ -1,0 +1,92 @@
+<div class="row">
+    <div class="col-md-12">
+      <div>
+        <ba-card baCardClass="with-scroll">
+          <ba-tabs>
+            <ba-tab tabTitle="{{'tabs.general' | translate}}">
+              <div class="row">
+                <div class="col-md-6 offset-md-3">
+                  <form>
+                    <div class="form-group">
+                      <label for="name" translate>school.name</label>
+                      <input type="text" class="form-control" id="name" placeholder="{{'school.name' | translate}}">
+                    </div>
+                    <div class="form-group">
+                      <label for="registration" translate>school.company_registration</label>
+                      <input type="text" class="form-control" id="registration" placeholder="{{'school.company_registration' | translate}}">
+                    </div>
+                    <button type="submit" class="btn btn-success" translate>form.save</button>
+                  </form>
+                </div>
+              </div>
+            </ba-tab>
+
+            <ba-tab tabTitle="{{'tabs.contact' | translate}}">
+              <div class="row">
+                <div class="col-md-6 offset-md-3">
+                  <form>
+                    <div class="form-group">
+                      <label for="email" translate>contact.email</label>
+                      <input type="email" class="form-control" id="email" placeholder="{{'contact.email' | translate}}">
+                    </div>
+                    <div class="form-group">
+                      <label for="phone" translate>contact.phone</label>
+                      <input type="text" class="form-control" id="phone" placeholder="{{'contact.phone' | translate}}">
+                    </div>
+                    <div class="form-group">
+                      <label for="website" translate>contact.website</label>
+                      <input type="text" class="form-control" id="website" placeholder="{{'contact.website' | translate}}">
+                    </div>
+                    <button type="submit" class="btn btn-success" translate>form.save</button>
+                  </form>
+                </div>
+              </div>
+            </ba-tab>
+            
+            <ba-tab tabTitle="{{'tabs.location' | translate}}">
+              <div class="row">
+                <div class="col-md-6 offset-md-3">
+                  <form>
+                    <div class="form-group">
+                      <label for="country" translate>location.country</label>
+                      <select class="form-control" id="country">
+                        <option value="BLR">Brazil</option>
+                        <option value="MEX">Mexico</option>
+                        <option value="ARG">Argentina</option>
+                        <option value="EUA">United States</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label for="state" translate>location.state</label>
+                      <select class="form-control" id="state">
+                        <option value="PR">Paraná</option>
+                        <option value="SP">São Paulo</option>
+                        <option value="SC">Santa Catarina</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label for="postal_code" translate>location.postal_code</label>
+                      <input type="text" class="form-control" id="postal_code" placeholder="{{'location.postal_code' | translate}}">
+                    </div>
+                    <div class="form-group">
+                      <label for="city" translate>location.city</label>
+                      <input type="text" class="form-control" id="city" placeholder="{{'location.city' | translate}}">
+                    </div>
+                    <div class="form-group">
+                      <label for="address" translate>location.address</label>
+                      <input type="text" class="form-control" id="address" placeholder="{{'location.address' | translate}}">
+                    </div>
+                    <div class="form-group">
+                      <label for="number" translate>location.number</label>
+                      <input type="text" class="form-control" id="number" placeholder="{{'location.number' | translate}}">
+                    </div>
+                    <button type="submit" class="btn btn-success" translate>form.save</button>
+                  </form>
+                </div>
+              </div>
+            </ba-tab>
+          </ba-tabs>
+        </ba-card>
+      </div>
+    </div>
+</div>

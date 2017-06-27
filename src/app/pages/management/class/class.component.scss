@@ -1,0 +1,21 @@
+.schedule .matter{
+    background-color: azure;
+    background-color: rgba(0, 0, 0, 0.04);
+    border-color: 1px solid  rgba(0, 0, 0, 0.1);
+    margin: 3px;
+    padding: 10px;
+    text-align: center;
+    border-radius: 5px;
+
+    a{
+        float: right;
+    }
+
+    a:hover{
+        color: red;
+    }
+}
+
+.schedule .drag_default{
+    opacity: 0.5;
+}

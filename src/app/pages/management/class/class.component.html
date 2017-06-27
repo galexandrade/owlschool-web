@@ -1,0 +1,204 @@
+<div class="row">
+    <div class="col-md-12">
+      <div>
+        <ba-card baCardClass="with-scroll">
+          <ba-tabs>
+            <ba-tab tabTitle="{{'tabs.general' | translate}}">
+              <div class="row">
+                <div class="col-md-6 offset-md-3">
+                  <form>
+                    <div class="form-group">
+                      <label for="name" translate>person.name</label>
+                      <input type="text" class="form-control" id="name" placeholder="{{'person.name' | translate}}">
+                    </div>
+                    <div class="form-group">
+                      <label for="period" translate>class.period</label>
+                      <select class="form-control" id="period">
+                        <option value="" translate>class.morning</option>
+                        <option value="" translate>class.afternoon</option>
+                        <option value="" translate>class.integral</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label for="main_teacher" translate>class.main_teacher</label>
+                      <select class="form-control" id="main_teacher">
+                        <option value="" translate>Aline Stark</option>
+                        <option value="" translate>Aline Stark</option>
+                        <option value="" translate>Aline Stark</option>
+                        <option value="" translate>Aline Stark</option>
+                      </select>
+                    </div>
+                    <button type="submit" class="btn btn-success" translate>form.save</button>
+                  </form>
+                </div>
+              </div>
+            </ba-tab>
+            
+            <ba-tab tabTitle="{{'tabs.teachers' | translate}}">
+              <div class="row">
+                <div class="col-md-8 offset-md-2">
+                  <div class="form-horizontal">  
+                    <div class="input-group">  
+                      <select class="form-control">
+                        <option translate>matter.math</option>
+                        <option translate>matter.history</option>
+                        <option translate>matter.geography</option>
+                        <option translate>matter.portuguese</option>
+                        <option translate>matter.english</option>
+                      </select>
+                      <select class="form-control">
+                        <option translate>Sandra Rodrigues</option>
+                        <option translate>Maria Lucia</option>
+                      </select>
+                      <button type="button" class="btn btn-success btn-xm" translate>form.add</button>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-8 offset-md-2">
+                  <table class="table table-striped">
+                    <thead>
+                    <tr>
+                      <th class="table-id">#</th>
+                      <th>Matter</th>
+                      <th>Teacher</th>
+                      <th class="text-right">Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td class="table-id">1</td>
+                        <td>Math</td>
+                        <td>Sandra Rodrigues</td>
+                        <td class="text-right"><button type="button" class="btn btn-danger">Remove</button></td>
+                      </tr>
+                      <tr>
+                        <td class="table-id">1</td>
+                        <td>Geography</td>
+                        <td>Sandra Rodrigues</td>
+                        <td class="text-right"><button type="button" class="btn btn-danger">Remove</button></td>
+                      </tr>
+                      <tr>
+                        <td class="table-id">1</td>
+                        <td>History</td>
+                        <td>Sandra Rodrigues</td>
+                        <td class="text-right"><button type="button" class="btn btn-danger">Remove</button></td>
+                      </tr>
+                      <tr>
+                        <td class="table-id">1</td>
+                        <td>English</td>
+                        <td>Josiele Stark</td>
+                        <td class="text-right"><button type="button" class="btn btn-danger">Remove</button></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </ba-tab>
+            
+            <ba-tab tabTitle="{{'tabs.schedule' | translate}}">
+              <div class="row schedule">
+                <div class="col-12">
+                  <ba-card title="Matters" baCardClass="with-scroll">
+                    <div class="row">
+                      <div *ngFor="let matter of matters" class="col-md-2 matter" dnd-draggable [dragData]="matter">{{matter.name}}</div>
+                    </div>
+                  </ba-card>
+                </div>
+
+                <div class="col-md-3">
+                  <ba-card title="Monday" baCardClass="with-scroll" dnd-droppable (onDropSuccess)="addToScheduleMon($event)">
+                    <div class="drag_default" *ngIf="scheduleMon.length == 0">Drag here!</div>
+                    <div *ngFor="let matter of scheduleMon" class="matter">
+                      {{matter.name}} 
+                      <a (click)="removeScheduleMon(matter)"><i class="ion-close-round"></i></a>
+                    </div>
+                  </ba-card>
+                </div>
+
+                <div class="col-md-3">
+                  <ba-card title="Tuesday" baCardClass="with-scroll" dnd-droppable (onDropSuccess)="addToScheduleTue($event)">
+                    <div class="drag_default" *ngIf="scheduleTue.length == 0">Drag here!</div>
+                    <div *ngFor="let matter of scheduleTue" class="matter">
+                      {{matter.name}}
+                      <a (click)="removeScheduleTue(matter)"><i class="ion-close-round"></i></a>
+                    </div>
+                  </ba-card>
+                </div>
+
+                <div class="col-md-3">
+                  <ba-card title="Wednesday" baCardClass="with-scroll" dnd-droppable (onDropSuccess)="addToScheduleWed($event)">
+                    <div class="drag_default" *ngIf="scheduleWed.length == 0">Drag here!</div>
+                    <div *ngFor="let matter of scheduleWed" class="matter">
+                      {{matter.name}}
+                      <a (click)="removeScheduleWed(matter)"><i class="ion-close-round"></i></a>
+                    </div>
+                  </ba-card>
+                </div>
+
+                <div class="col-md-3">
+                  <ba-card title="Thursday" baCardClass="with-scroll" dnd-droppable (onDropSuccess)="addToScheduleThu($event)">
+                    <div class="drag_default" *ngIf="scheduleThu.length == 0">Drag here!</div>
+                    <div *ngFor="let matter of scheduleThu" class="matter">
+                      {{matter.name}}
+                      <a (click)="removeScheduleTue(matter)"><i class="ion-close-round"></i></a>
+                    </div>
+                  </ba-card>
+                </div>
+
+                <div class="col-md-3">
+                  <ba-card title="Friday" baCardClass="with-scroll" dnd-droppable (onDropSuccess)="addToScheduleFri($event)">
+                    <div class="drag_default" *ngIf="scheduleFri.length == 0">Drag here!</div>
+                    <div *ngFor="let matter of scheduleFri" class="matter">
+                      {{matter.name}}
+                      <a (click)="removeScheduleFri(matter)"><i class="ion-close-round"></i></a>
+                    </div>
+                  </ba-card>
+                </div>
+
+                <div class="col-md-3">
+                  <ba-card title="Saturday" baCardClass="with-scroll" dnd-droppable (onDropSuccess)="addToScheduleSat($event)">
+                    <div class="drag_default" *ngIf="scheduleSat.length == 0">Drag here!</div>
+                    <div *ngFor="let matter of scheduleSat" class="matter">
+                      {{matter.name}}
+                      <a (click)="removeScheduleSat(matter)"><i class="ion-close-round"></i></a>
+                    </div>
+                  </ba-card>
+                </div>
+
+                <div class="col-md-3">
+                  <ba-card title="Sunday" baCardClass="with-scroll" dnd-droppable (onDropSuccess)="addToScheduleSun($event)">
+                    <div class="drag_default" *ngIf="scheduleSun.length == 0">Drag here!</div>
+                    <div *ngFor="let matter of scheduleSun" class="matter">
+                      {{matter.name}}
+                      <a (click)="removeScheduleSun(matter)"><i class="ion-close-round"></i></a>
+                    </div>
+                  </ba-card>                
+                </div>               
+              </div>
+            </ba-tab>
+
+            <ba-tab tabTitle="{{'tabs.students' | translate}}">
+              <div class="row">
+                <div class="col-12">
+                  <ba-card>
+                    <div class="form-horizontal">         
+                      <div class="input-group">
+                        <input type="search" class="form-control" id="input01" placeholder="{{'form.search' | translate}}">
+                        <button type="button" class="btn btn-success btn-icon"><i class="ion-plus-round"></i> Add</button>
+                      </div>
+                    </div>
+                  </ba-card>
+                </div>
+                <div class="col-12 col-md-6">
+                  <student-card></student-card>
+                </div>
+                <div class="col-12 col-md-6">
+                  <student-card></student-card>
+                </div>
+              </div>
+            </ba-tab>
+          </ba-tabs>
+        </ba-card>
+      </div>
+    </div>
+</div>

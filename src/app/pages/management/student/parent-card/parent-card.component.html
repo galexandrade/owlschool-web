@@ -1,0 +1,37 @@
+<ba-card baCardClass="with-scroll">
+  <div class="row parent_card">
+    <div class="col-8">
+      <div class="form-group">
+        <label for="inputFirstName" translate>person.name</label>
+        <input type="text" class="form-control" id="inputName" placeholder="{{'person.name' | translate}}">
+      </div>
+      <div class="form-group">
+        <label for="relationship" translate>person.relationship</label>
+        <select class="form-control" id="relationship">
+          <option translate>person.mother</option>
+          <option translate>person.father</option>
+          <option translate>person.brother</option>
+          <option translate>person.sister</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="phone" translate>contact.phone</label>
+        <input type="text" class="form-control" id="phone" placeholder="{{'contact.phone' | translate}}">
+      </div>
+      <div class="form-group">
+        <label for="job" translate>person.job</label>
+        <input type="text" class="form-control" id="job" placeholder="{{'person.job' | translate}}">
+      </div>
+      <div class="form-group">
+        <label for="email" translate>contact.email</label>
+        <input type="text" class="form-control" id="email" placeholder="{{'contact.email' | translate}}">
+      </div>
+    </div>
+    <div class="col-4">
+      <img src="{{ ( 'Vlad' | baProfilePicture ) }}">
+      <button type="button" class="btn btn-success btn-block btn-sm">Chat</button>
+      <button type="button" class="btn btn-primary btn-block btn-sm">Edit</button>
+      <button type="button" class="btn btn-danger btn-block btn-sm">Remove</button>
+    </div>
+  </div>
+</ba-card>

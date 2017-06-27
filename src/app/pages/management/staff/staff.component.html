@@ -1,0 +1,157 @@
+<div class="row">
+    <div class="col-md-12">
+      <div>
+        <ba-card baCardClass="with-scroll">
+          <ba-tabs>
+            <ba-tab tabTitle="{{'tabs.general' | translate}}">
+              <div class="row">
+                <div class="col-sm-4 col-md-3 offset-md-1">
+                  <img src="{{ ( 'Vlad' | baProfilePicture ) }}" class="img_round">
+                  <button class="btn btn-default btn_change_picture">
+                    Change Picture
+                    <i class="ion-camera"></i>
+                  </button>
+                </div>
+                <div class="col-sm-6">
+                  <form>
+                    <div class="form-group">
+                      <label for="name" translate>person.name</label>
+                      <input type="text" class="form-control" id="name" placeholder="{{'person.name' | translate}}">
+                    </div>
+                    <div class="form-group">
+                      <label for="birthday" translate>person.birthday</label>
+                      <input type="date" class="form-control" id="birthday" placeholder="{{'person.birthday' | translate}}">
+                    </div>
+                    <div class="form-group">
+                      <label for="function" translate>professional.function</label>
+                      <select class="form-control" id="function">
+                        <option value="" translate>professional.teacher</option>
+                        <option value="" translate>professional.recepcionist</option>
+                        <option value="" translate>professional.monitor</option>
+                      </select>
+                    </div>
+                    <button type="submit" class="btn btn-success" translate>form.save</button>
+                  </form>
+                </div>
+              </div>
+            </ba-tab> 
+
+            <ba-tab tabTitle="{{'tabs.matters' | translate}}">
+              <div class="row">
+                <div class="col-md-6 offset-md-3">
+                  <div class="form-horizontal">  
+                    <div class="input-group">  
+                      <select class="form-control">
+                        <option translate>matter.math</option>
+                        <option translate>matter.history</option>
+                        <option translate>matter.geography</option>
+                        <option translate>matter.portuguese</option>
+                        <option translate>matter.english</option>
+                      </select>
+                      <button type="button" class="btn btn-success btn-xm" translate>form.add</button>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6 offset-md-3">
+                  <table class="table table-striped">
+                    <thead>
+                    <tr>
+                      <th class="table-id">#</th>
+                      <th>Matter</th>
+                      <th class="text-right">Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td class="table-id">1</td>
+                        <td>Math</td>
+                        <td class="text-right"><button type="button" class="btn btn-danger">Remove</button></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </ba-tab>
+
+            <ba-tab tabTitle="{{'tabs.security' | translate}}">
+              <div class="row">
+                <div class="col-md-3 offset-md-3">
+                  <h5>General</h5>
+                  <div class="checkbox">
+                    <label>
+                      <input type="checkbox" id="can_create_event" value="">
+                      {{'security.can_create_event' | translate}}
+                    </label>
+                  </div>
+                  <div class="checkbox">
+                    <label>
+                      <input type="checkbox" id="can_create_news" value="">
+                      {{'security.can_create_news' | translate}}
+                    </label>
+                  </div>
+                  <div class="checkbox">
+                    <label>
+                      <input type="checkbox" id="can_chat" value="">
+                      {{'security.can_chat' | translate}}
+                    </label>
+                  </div>
+                </div>
+
+                <div class="col-md-3">
+                  <h5>Management</h5>
+                  <div class="checkbox">
+                    <label>
+                      <input type="checkbox" id="can_update_school" value="">
+                      {{'security.can_update_school' | translate}}
+                    </label>
+                  </div>
+                  <div class="checkbox">
+                    <label>
+                      <input type="checkbox" id="can_update_student" value="">
+                      {{'security.can_update_student' | translate}}
+                    </label>
+                  </div>
+                  <div class="checkbox">
+                    <label>
+                      <input type="checkbox" id="can_create_student" value="">
+                      {{'security.can_create_student' | translate}}
+                    </label>
+                  </div>
+                  <div class="checkbox">
+                    <label>
+                      <input type="checkbox" id="can_update_class" value="">
+                      {{'security.can_update_class' | translate}}
+                    </label>
+                  </div>
+                  <div class="checkbox">
+                    <label>
+                      <input type="checkbox" id="can_create_class" value="">
+                      {{'security.can_create_class' | translate}}
+                    </label>
+                  </div>
+                </div>
+
+                <div class="col-md-6 offset-md-3">
+                  <form>
+                    <div class="form-group">
+                      <label for="email" translate>login.email</label>
+                      <input type="text" class="form-control" id="email" placeholder="{{'login.email' | translate}}">
+                    </div>
+                    <div class="form-group">
+                      <label for="password" translate>login.password</label>
+                      <input type="text" class="form-control" id="password" placeholder="{{'login.password' | translate}}">
+                    </div>
+                    <div class="form-group">
+                      <label for="confirm_password" translate>login.password</label>
+                      <input type="text" class="form-control" id="confirm_password" placeholder="{{'login.confirm_password' | translate}}">
+                    </div>
+                    <button type="submit" class="btn btn-success" translate>form.save</button>
+                  </form>
+                </div>
+              </div>
+            </ba-tab>           
+          </ba-tabs>
+        </ba-card>
+      </div>
+    </div>
+</div>
