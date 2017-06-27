@@ -7,6 +7,9 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
 import { DndModule } from 'ng2-dnd';
 
+import { ToasterModule } from 'angular2-toaster';
+
+
 /*
  * Platform and Environment providers/directives/pipes
  */
@@ -19,14 +22,14 @@ import { GlobalState } from './global.state';
 import { NgaModule } from './theme/nga.module';
 import { PagesModule } from './pages/pages.module';
 
-import { UserService } from './services/user.service';
+import { AuthService } from './core/auth.service';
 
 
 // Application wide providers
 const APP_PROVIDERS = [
   AppState,
   GlobalState,
-  UserService,
+  AuthService,
   DndModule
 ];
 
@@ -54,7 +57,8 @@ export type StoreType = {
     NgbModule.forRoot(),
     PagesModule,
     routing,
-    DndModule.forRoot()
+    DndModule.forRoot(),
+    ToasterModule
   ],
   providers: [ // expose our Services and Providers into Angular's dependency injection
     APP_PROVIDERS
