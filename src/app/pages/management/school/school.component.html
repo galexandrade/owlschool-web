@@ -6,14 +6,14 @@
             <ba-tab tabTitle="{{'tabs.general' | translate}}">
               <div class="row">
                 <div class="col-md-6 offset-md-3">
-                  <form>
+                  <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)">
                     <div class="form-group">
                       <label for="name" translate>school.name</label>
-                      <input type="text" class="form-control" id="name" placeholder="{{'school.name' | translate}}">
+                      <input [formControl]="name" type="text" class="form-control" id="name" placeholder="{{'school.name' | translate}}">
                     </div>
                     <div class="form-group">
-                      <label for="registration" translate>school.company_registration</label>
-                      <input type="text" class="form-control" id="registration" placeholder="{{'school.company_registration' | translate}}">
+                      <label for="companyRegister" translate>school.company_registration</label>
+                      <input [formControl]="companyRegister" type="text" class="form-control" id="registration" placeholder="{{'school.company_registration' | translate}}">
                     </div>
                     <button type="submit" class="btn btn-success" translate>form.save</button>
                   </form>
@@ -42,7 +42,7 @@
                 </div>
               </div>
             </ba-tab>
-            
+
             <ba-tab tabTitle="{{'tabs.location' | translate}}">
               <div class="row">
                 <div class="col-md-6 offset-md-3">

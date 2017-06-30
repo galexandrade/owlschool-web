@@ -7,10 +7,9 @@ import { AuthService } from './auth.service';
 import { AuthGuard } from './auth-guard.service';
 import { PublicAccountService } from './public-account.service';
 import { ApiHttpService } from './api-http.service';
-/*import { ProfileService } from './profile.service';
-import { AgendaService } from './agenda.service';
-import { TaskService } from './task.service';*/
 import { ParameterService } from './parameter.service';
+
+import { SchoolService } from '../services/school.service';
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp( new AuthConfig({}), http, options);
@@ -31,10 +30,8 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     AuthGuard,
     PublicAccountService,
     ApiHttpService,
-    //ProfileService,
-    //AgendaService,
-    //TaskService,
-    ParameterService
+    ParameterService,
+    SchoolService
   ]
 })
 export class CoreModule {
