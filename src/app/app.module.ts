@@ -22,14 +22,13 @@ import { GlobalState } from './global.state';
 import { NgaModule } from './theme/nga.module';
 import { PagesModule } from './pages/pages.module';
 
-import { AuthService } from './core/auth.service';
+import { CoreModule } from './core/core.module';
 
 
 // Application wide providers
 const APP_PROVIDERS = [
   AppState,
   GlobalState,
-  AuthService,
   DndModule
 ];
 
@@ -58,7 +57,8 @@ export type StoreType = {
     PagesModule,
     routing,
     DndModule.forRoot(),
-    ToasterModule
+    ToasterModule,
+    CoreModule
   ],
   providers: [ // expose our Services and Providers into Angular's dependency injection
     APP_PROVIDERS

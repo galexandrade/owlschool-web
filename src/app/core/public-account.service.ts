@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import { environment } from '../../environments/environment';
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import { ToasterService } from 'angular2-toaster';
+import { TranslateService } from '@ngx-translate/core';
+
 
 import { User } from '../model/user';
 
@@ -13,7 +15,8 @@ export class PublicAccountService {
   private url: string;
 
   constructor(private http: Http,
-              private toaster: ToasterService) {
+              private toaster: ToasterService,
+              private translate: TranslateService) {
     this.url = environment.publicApiUrl;
   }
 
@@ -31,10 +34,11 @@ export class PublicAccountService {
   }
 
   decodeError(data: any): any {
-    if(data.code && data.status && data.message) {
+    console.log(data.message);
+    if(data.status && data.message) {
       this.toaster.pop({
           type: 'error',
-          body: data.message
+          body: data.message //this.translate.get(data.message).subscribe((res: String) => res)
       });
       return data;
     } else {

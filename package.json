@@ -56,6 +56,8 @@
     "amcharts3": "github:amcharts/amcharts3",
     "ammap3": "github:amcharts/ammap3",
     "angular2-datatable": "0.6.0",
+    "angular2-jwt": "^0.1.27",
+    "angular2-toaster": "^2.0.0",
     "animate.css": "3.5.2",
     "bootstrap": "4.0.0-alpha.6",
     "chart.js": "1.1.1",
@@ -83,9 +85,8 @@
     "normalize.css": "6.0.0",
     "roboto-fontface": "0.7.0",
     "rxjs": "5.4.0",
-    "zone.js": "0.8.11",
-    "angular2-jwt": "^0.1.27",
-    "angular2-toaster": "^2.0.0"
+    "toaster": "^0.1.2",
+    "zone.js": "0.8.11"
   },
   "devDependencies": {
     "@angular/cli": "1.0.4",

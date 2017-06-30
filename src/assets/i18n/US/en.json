@@ -1,4 +1,9 @@
 {
+  "app":{
+    "exception": {
+      "InvalidUserException": "Email and password incorrect!"
+    }
+  },
   "login": {
     "title": "LOGIN",
     "signup_link": "New to ng2-admin? Sign up!",
@@ -109,7 +114,7 @@
     "simple_pie": "Simple Pie",
     "pie_with_labels": "Pie with labels",
     "donut": "Donut"
-  }, 
+  },
   "tabs": {
     "general": "General",
     "location": "Location",
@@ -120,7 +125,7 @@
     "teachers": "Teachers",
     "students": "Students",
     "schedule": "Schedule"
-  }, 
+  },
   "form": {
     "save": "Save",
     "cancel": "Cancel",
@@ -159,7 +164,7 @@
     "mother": "Mother",
     "father": "Father",
     "brother": "Brother",
-    "sister": "Sister"    
+    "sister": "Sister"
   },
   "professional": {
     "job": "job",

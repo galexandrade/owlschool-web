@@ -30,8 +30,10 @@ export class Login {
     this.submitted = true;
     if (this.form.valid) {
       this.authService.login(this.email.value, this.password.value).subscribe((data) => {
+        console.log(this.authService.loggedIn());
         if(this.authService.loggedIn()){
           let redirect = this.authService.redirectUrl ? this.authService.redirectUrl : '/pages';
+          console.log(redirect);
           this.router.navigate([redirect]);
         }
       });
