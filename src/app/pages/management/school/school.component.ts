@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FormGroup, AbstractControl, FormBuilder, Validators} from '@angular/forms';
 import { SchoolService } from '../../../services/school.service';
+import { AuthService } from '../../../core/auth.service';
 import { School } from '../../../model/school';
 
 @Component({
@@ -9,26 +10,51 @@ import { School } from '../../../model/school';
   styleUrls: ['./school.component.scss']
 })
 export class SchoolComponent implements OnInit {
-
-  public form:FormGroup;
-
-  private name: AbstractControl;
-  private companyRegister: AbstractControl;
-
   private school: School;
 
-  constructor(fb:FormBuilder, schoolService: SchoolService) {
-    this.form = fb.group({
-      'name': ['', Validators.compose([Validators.required, Validators.minLength(3)])],
-      'companyRegister': ['', Validators.compose([Validators.required, Validators.minLength(3)])]
+  public form:FormGroup;
+  private name: AbstractControl;
+  private companyRegistration: AbstractControl;
+  private address: AbstractControl;
+  private city: AbstractControl;
+  private country: AbstractControl;
+  private number: AbstractControl;
+  private postalCode: AbstractControl;
+  private state: AbstractControl;
+  private email: AbstractControl;
+  private phone: AbstractControl;
+  private website: AbstractControl;
+
+
+  constructor(private fb:FormBuilder, private schoolService: SchoolService, authService: AuthService) {
+    this.form = this.fb.group({
+      'name': ['', Validators.compose([Validators.required, Validators.minLength(15)])],
+      'companyRegistration': ['', Validators.compose([Validators.required])],
+      'address': ['', Validators.compose([Validators.required])],
+      'city': ['', Validators.compose([Validators.required])],
+      'country': ['', Validators.compose([Validators.required])],
+      'number': ['', Validators.compose([Validators.required])],
+      'postalCode': ['', Validators.compose([Validators.required])],
+      'state': ['', Validators.compose([Validators.required])],
+      'email': ['', Validators.compose([Validators.required, Validators.email])],
+      'phone': ['', Validators.compose([Validators.required])],
+      'website': ['', Validators.compose([])]
     });
 
     this.name = this.form.controls['name'];
-    this.companyRegister = this.form.controls['companyRegister'];
+    this.companyRegistration = this.form.controls['companyRegistration'];
+    this.address = this.form.controls['address'];
+    this.city = this.form.controls['city'];
+    this.country = this.form.controls['country'];
+    this.number = this.form.controls['number'];
+    this.postalCode = this.form.controls['postalCode'];
+    this.state = this.form.controls['state'];
+    this.email = this.form.controls['email'];
+    this.phone = this.form.controls['phone'];
+    this.website = this.form.controls['website'];
 
-    let id = '1';
-    schoolService.get(id).subscribe(
-      res => {console.log(res), this.school = res}
+    this.schoolService.get(authService.getLoggedUser().schoolId.toString()).subscribe(
+      res => this.school = res
     );
    }
 
@@ -36,9 +62,9 @@ export class SchoolComponent implements OnInit {
   }
 
   onSubmit(values: Object): void{
-
-    console.log("Submit");
-    console.log(this.name.value);
+    console.info("UPDATE", this.school);
+    this.schoolService.update('1', this.school).subscribe(
+      (res: any) => console.info("UPDATED", res)
+    );
   }
-
 }

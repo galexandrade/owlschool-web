@@ -1,10 +1,9 @@
-export class School {
-    id: Number;
-    name: string;
-    companyRegistration: String;
+import { Address } from './address';
+import { Contact } from './contact';
 
-  constructor(name?: string, companyRegistration?:string) {
-    this.name = name;
-    this.companyRegistration = companyRegistration;
-  }
+export class School {
+    name: string;
+    companyRegistration: string;
+    address: Address;
+    contact: Contact;
 }

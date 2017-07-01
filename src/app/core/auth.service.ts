@@ -32,7 +32,9 @@ export class AuthService {
   private updateLoggedUser() {
     let decoded: any = this.jwtHelper.decodeToken(localStorage.getItem('id_token'));
     this.loggedUser = new User();
+    this.loggedUser.id = decoded.userId;
     this.loggedUser.email = decoded.email;
+    this.loggedUser.schoolId = decoded.schoolId;
   }
 
   updateToken(token: string) {

@@ -9,11 +9,11 @@
                   <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)">
                     <div class="form-group">
                       <label for="name" translate>school.name</label>
-                      <input [formControl]="name" type="text" class="form-control" id="name" placeholder="{{'school.name' | translate}}">
+                      <input [formControl]="name" [(ngModel)]="school && school.name" type="text" class="form-control" id="name" placeholder="{{'school.name' | translate}}">
                     </div>
                     <div class="form-group">
-                      <label for="companyRegister" translate>school.company_registration</label>
-                      <input [formControl]="companyRegister" type="text" class="form-control" id="registration" placeholder="{{'school.company_registration' | translate}}">
+                      <label for="companyRegistration" translate>school.company_registration</label>
+                      <input [formControl]="companyRegistration"  [(ngModel)]="school && school.companyRegistration" type="text" class="form-control" id="registration" placeholder="{{'school.company_registration' | translate}}">
                     </div>
                     <button type="submit" class="btn btn-success" translate>form.save</button>
                   </form>
@@ -24,18 +24,18 @@
             <ba-tab tabTitle="{{'tabs.contact' | translate}}">
               <div class="row">
                 <div class="col-md-6 offset-md-3">
-                  <form>
+                  <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)">
                     <div class="form-group">
                       <label for="email" translate>contact.email</label>
-                      <input type="email" class="form-control" id="email" placeholder="{{'contact.email' | translate}}">
+                      <input [formControl]="email" [(ngModel)]="school && school.contact.email" type="email" class="form-control" id="email" placeholder="{{'contact.email' | translate}}">
                     </div>
                     <div class="form-group">
                       <label for="phone" translate>contact.phone</label>
-                      <input type="text" class="form-control" id="phone" placeholder="{{'contact.phone' | translate}}">
+                      <input [formControl]="phone" [(ngModel)]="school && school.contact.phone" type="text" class="form-control" id="phone" placeholder="{{'contact.phone' | translate}}">
                     </div>
                     <div class="form-group">
                       <label for="website" translate>contact.website</label>
-                      <input type="text" class="form-control" id="website" placeholder="{{'contact.website' | translate}}">
+                      <input [formControl]="website" [(ngModel)]="school && school.contact.website" type="text" class="form-control" id="website" placeholder="{{'contact.website' | translate}}">
                     </div>
                     <button type="submit" class="btn btn-success" translate>form.save</button>
                   </form>
@@ -46,7 +46,7 @@
             <ba-tab tabTitle="{{'tabs.location' | translate}}">
               <div class="row">
                 <div class="col-md-6 offset-md-3">
-                  <form>
+                  <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)">
                     <div class="form-group">
                       <label for="country" translate>location.country</label>
                       <select class="form-control" id="country">
@@ -66,19 +66,19 @@
                     </div>
                     <div class="form-group">
                       <label for="postal_code" translate>location.postal_code</label>
-                      <input type="text" class="form-control" id="postal_code" placeholder="{{'location.postal_code' | translate}}">
+                      <input [formControl]="postalCode" [(ngModel)]="school && school.address.postalCode" type="text" class="form-control" id="postal_code" placeholder="{{'location.postal_code' | translate}}">
                     </div>
                     <div class="form-group">
                       <label for="city" translate>location.city</label>
-                      <input type="text" class="form-control" id="city" placeholder="{{'location.city' | translate}}">
+                      <input [formControl]="city" [(ngModel)]="school && school.address.city" type="text" class="form-control" id="city" placeholder="{{'location.city' | translate}}">
                     </div>
                     <div class="form-group">
                       <label for="address" translate>location.address</label>
-                      <input type="text" class="form-control" id="address" placeholder="{{'location.address' | translate}}">
+                      <input [formControl]="address" [(ngModel)]="school && school.address.address" type="text" class="form-control" id="address" placeholder="{{'location.address' | translate}}">
                     </div>
                     <div class="form-group">
                       <label for="number" translate>location.number</label>
-                      <input type="text" class="form-control" id="number" placeholder="{{'location.number' | translate}}">
+                      <input [formControl]="number" [(ngModel)]="school && school.address.number" type="text" class="form-control" id="number" placeholder="{{'location.number' | translate}}">
                     </div>
                     <button type="submit" class="btn btn-success" translate>form.save</button>
                   </form>
