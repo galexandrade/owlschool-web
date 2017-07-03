@@ -1,36 +1,24 @@
   <ba-card baCardClass="with-scroll">
     <div class="row student_card">
       <div class="col-8">
-        <h5>Sarah Lyss R. Andrade</h5>
+        <h5>{{student.person.firstName}} {{student.person.lastName}}</h5>
         <table>
           <tbody>
             <tr>
               <td class="text-right">Birth Day:</td>
-              <td>22/03/2010 (7 years)</td>
+              <td>{{student.person.birthDay  | date: 'dd/MM/yyyy'}}</td>
             </tr>
             <tr>
               <td class="text-right">Class:</td>
               <td>3° B</td>
-            </tr>
-            <tr>
-              <td class="text-right">Contacts:</td>
-              <td></td>
-            </tr>
-            <tr>
-              <td class="text-right">(Father)</td>
-              <td>Alex P. Andrade</td>
-            </tr>
-            <tr>
-              <td class="text-right">(Mother)</td>
-              <td>Juliane da R. Andrade</td>
             </tr>
           </tbody>
         </table>
       </div>
       <div class="col-4">
         <img src="{{ ( 'Vlad' | baProfilePicture ) }}">
-        <button routerLink="/pages/management/student" type="button" class="btn btn-success btn-block btn-sm">View Profile</button>
-        <button routerLink="/pages/management/student" type="button" class="btn btn-danger btn-block btn-sm">Remove</button>
+        <button routerLink="/pages/management/students/{{student.id}}" type="button" class="btn btn-success btn-block btn-sm">View Profile</button>
+        <button (click)="remove()" type="button" class="btn btn-danger btn-block btn-sm">Remove</button>
       </div>
     </div>
   </ba-card>

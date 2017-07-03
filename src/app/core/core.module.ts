@@ -10,6 +10,7 @@ import { ApiHttpService } from './api-http.service';
 import { ParameterService } from './parameter.service';
 
 import { SchoolService } from '../services/school.service';
+import { StudentService } from '../services/student.service';
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp( new AuthConfig({}), http, options);
@@ -31,7 +32,8 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     PublicAccountService,
     ApiHttpService,
     ParameterService,
-    SchoolService
+    SchoolService,
+    StudentService
   ]
 })
 export class CoreModule {

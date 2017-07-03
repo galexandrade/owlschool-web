@@ -11,15 +11,14 @@ import { routing }       from './management.routing';
 import { SchoolComponent } from './school/school.component';
 import { Management } from './management.component';
 import { StudentsComponent } from './students/students.component';
-import { StudentCardComponent } from './students/student-card/student-card.component';
 import { StudentComponent } from './student/student.component';
-import { ParentCardComponent } from './student/parent-card/parent-card.component';
 import { TeamComponent } from './team/team.component';
 import { StaffComponent } from './staff/staff.component';
 import { StaffCardComponent } from './team/staff-card/staff-card.component';
 import { ClassesComponent } from './classes/classes.component';
 import { ClassComponent } from './class/class.component';
 import { ClassCardComponent } from './classes/class-card/class-card.component';
+import { StudentModule } from './students/student.module';
 
 @NgModule({
   imports: [
@@ -29,11 +28,20 @@ import { ClassCardComponent } from './classes/class-card/class-card.component';
     routing,
     DndModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    StudentModule
   ],
   entryComponents: [
     Management
   ],
-  declarations: [Management, SchoolComponent, StudentsComponent, StudentCardComponent, StudentComponent, ParentCardComponent, TeamComponent, StaffComponent, StaffCardComponent, ClassesComponent, ClassComponent, ClassCardComponent]
+  declarations: [
+    Management,
+    SchoolComponent,
+    TeamComponent,
+    StaffComponent,
+    StaffCardComponent,
+    ClassesComponent,
+    ClassComponent,
+    ClassCardComponent]
 })
 export class ManagementModule { }

@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FormGroup, AbstractControl, FormBuilder, Validators} from '@angular/forms';
+import { ToasterService } from 'angular2-toaster';
+
 import { SchoolService } from '../../../services/school.service';
 import { AuthService } from '../../../core/auth.service';
 import { School } from '../../../model/school';
@@ -26,7 +28,11 @@ export class SchoolComponent implements OnInit {
   private website: AbstractControl;
 
 
-  constructor(private fb:FormBuilder, private schoolService: SchoolService, authService: AuthService) {
+  constructor(private fb:FormBuilder,
+              private schoolService: SchoolService,
+              private authService: AuthService,
+              private toaster: ToasterService) {
+
     this.form = this.fb.group({
       'name': ['', Validators.compose([Validators.required, Validators.minLength(15)])],
       'companyRegistration': ['', Validators.compose([Validators.required])],
@@ -62,9 +68,11 @@ export class SchoolComponent implements OnInit {
   }
 
   onSubmit(values: Object): void{
-    console.info("UPDATE", this.school);
-    this.schoolService.update('1', this.school).subscribe(
-      (res: any) => console.info("UPDATED", res)
+    this.schoolService.update(this.authService.getLoggedUser().schoolId.toString(), this.school).subscribe(
+      (res: any) => this.toaster.pop({
+                        type: 'success',
+                        body: 'Updated with success!'
+                    })
     );
   }
 }

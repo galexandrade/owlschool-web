@@ -55,19 +55,26 @@ export class ApiHttpService {
   delete(resourcePath: string): Observable<any> {
     let url : string = this.url + '/' + resourcePath;
     return this.http.delete(url)
-      .map(res => this.decodeSuccess(res))
-      .catch((error: any) => Observable.throw(this.decodeError(error.json())))
+      .map(res => res /*this.decodeSuccess(res)*/)
+      .catch((error: any) => Observable.throw(this.decodeError(error /*.json()*/)))
       .publishLast()
       .refCount();
   }
 
   decodeSuccess(data: any): any {
-    data = data.json();
-    if(data.status && data.message) {
+    if(data == '')
       this.toaster.pop({
           type: 'success',
-          body: data.message
+          body: 'Success'
       });
+    else{
+      data = data.json();
+      if(data.status && data.message) {
+        this.toaster.pop({
+            type: 'success',
+            body: data.message
+        });
+      }
     }
     return data;
   }
