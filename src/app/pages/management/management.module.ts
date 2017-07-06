@@ -10,15 +10,17 @@ import { DndModule } from 'ng2-dnd';
 import { routing }       from './management.routing';
 import { SchoolComponent } from './school/school.component';
 import { Management } from './management.component';
-import { StudentsComponent } from './students/students.component';
-import { StudentComponent } from './student/student.component';
 import { TeamComponent } from './team/team.component';
 import { StaffComponent } from './staff/staff.component';
 import { StaffCardComponent } from './team/staff-card/staff-card.component';
 import { ClassesComponent } from './classes/classes.component';
 import { ClassComponent } from './class/class.component';
 import { ClassCardComponent } from './classes/class-card/class-card.component';
-import { StudentModule } from './students/student.module';
+
+import { StudentListComponent } from './student/student-list/student-list.component';
+import { StudentFormComponent } from './student/student-form/student-form.component';
+import { StudentCardComponent } from './student/student-card/student-card.component';
+import { ParentCardComponent } from './student/parent-card/parent-card.component';
 
 @NgModule({
   imports: [
@@ -28,8 +30,7 @@ import { StudentModule } from './students/student.module';
     routing,
     DndModule,
     ReactiveFormsModule,
-    FormsModule,
-    StudentModule
+    FormsModule
   ],
   entryComponents: [
     Management
@@ -42,6 +43,10 @@ import { StudentModule } from './students/student.module';
     StaffCardComponent,
     ClassesComponent,
     ClassComponent,
-    ClassCardComponent]
+    ClassCardComponent,
+    StudentListComponent,
+    StudentFormComponent,
+    StudentCardComponent,
+    ParentCardComponent]
 })
 export class ManagementModule { }

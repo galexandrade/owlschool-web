@@ -1,14 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { ToasterService } from 'angular2-toaster';
-import { StudentService } from '../../../services/student.service';
-import { Student } from '../../../model/student';
+import { StudentService } from '../../../../services/student.service';
+import { Student } from '../../../../model/student';
+import { StudentCardComponent } from '../student-card/student-card.component';
 
 @Component({
-  selector: 'app-students',
-  templateUrl: './students.component.html',
-  styleUrls: ['./students.component.scss']
+  selector: 'app-student-list',
+  templateUrl: './student-list.component.html',
+  styleUrls: ['./student-list.component.scss']
 })
-export class StudentsComponent implements OnInit {
+export class StudentListComponent implements OnInit {
   students: Student[];
 
   constructor(private studentService: StudentService,

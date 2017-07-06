@@ -13,10 +13,10 @@
                   </button>
                 </div>
                 <div class="col-sm-6">
-                  <form>
+                  <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)">
                     <div class="form-group">
                       <label for="name" translate>person.name</label>
-                      <input type="text" class="form-control" id="name" placeholder="{{'person.name' | translate}}">
+                      <input type="text" [formControl]="firstName" [(ngModel)]="student && student.person.firstName" class="form-control" id="name" placeholder="{{'person.name' | translate}}">
                     </div>
                     <div class="form-group">
                       <label for="birthday" translate>person.birthday</label>
@@ -34,7 +34,7 @@
                 </div>
               </div>
             </ba-tab>
-            
+
             <ba-tab tabTitle="{{'tabs.location' | translate}}">
               <div class="row">
                 <div class="col-md-6 offset-md-3">
