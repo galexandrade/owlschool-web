@@ -6,4 +6,5 @@ export class School {
     companyRegistration: string;
     address: Address;
     contact: Contact;
+    _links: any;
 }

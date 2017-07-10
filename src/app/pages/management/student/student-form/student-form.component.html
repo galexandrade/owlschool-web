@@ -20,13 +20,12 @@
                     </div>
                     <div class="form-group">
                       <label for="birthday" translate>person.birthday</label>
-                      <input type="date" class="form-control" id="birthday" placeholder="{{'person.birthday' | translate}}">
+                      <input type="text"  [formControl]="birthDay" [(ngModel)]="student && student.person.birthDay" class="form-control" id="birthday" placeholder="{{'person.birthday' | translate}}">
                     </div>
                     <div class="form-group">
                       <label for="class" translate>person.class</label>
-                      <select class="form-control" id="class">
-                        <option value="BLR">1° A</option>
-                        <option value="MEX">1° B</option>
+                      <select [formControl]="classRoom" class="form-control" id="class">
+                        <option value=""></option>
                       </select>
                     </div>
                     <button type="submit" class="btn btn-success" translate>form.save</button>
@@ -38,7 +37,7 @@
             <ba-tab tabTitle="{{'tabs.location' | translate}}">
               <div class="row">
                 <div class="col-md-6 offset-md-3">
-                  <form>
+                  <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)">
                     <div class="form-group">
                       <label for="country" translate>location.country</label>
                       <select class="form-control" id="country">
@@ -58,19 +57,19 @@
                     </div>
                     <div class="form-group">
                       <label for="postal_code" translate>location.postal_code</label>
-                      <input type="text" class="form-control" id="postal_code" placeholder="{{'location.postal_code' | translate}}">
+                      <input [formControl]="postalCode" [(ngModel)]="student && student.person && student.person.address.postalCode" type="text" class="form-control" id="postal_code" placeholder="{{'location.postal_code' | translate}}">
                     </div>
                     <div class="form-group">
                       <label for="city" translate>location.city</label>
-                      <input type="text" class="form-control" id="city" placeholder="{{'location.city' | translate}}">
+                      <input [formControl]="city" [(ngModel)]="student && student.person && student.person.address.city" type="text" class="form-control" id="city" placeholder="{{'location.city' | translate}}">
                     </div>
                     <div class="form-group">
                       <label for="address" translate>location.address</label>
-                      <input type="text" class="form-control" id="address" placeholder="{{'location.address' | translate}}">
+                      <input [formControl]="address" [(ngModel)]="student && student.person && student.person.address.address" type="text" class="form-control" id="address" placeholder="{{'location.address' | translate}}">
                     </div>
                     <div class="form-group">
                       <label for="number" translate>location.number</label>
-                      <input type="text" class="form-control" id="number" placeholder="{{'location.number' | translate}}">
+                      <input [formControl]="number" [(ngModel)]="student && student.person && student.person.address.number" type="text" class="form-control" id="number" placeholder="{{'location.number' | translate}}">
                     </div>
                     <button type="submit" class="btn btn-success" translate>form.save</button>
                   </form>
@@ -80,11 +79,8 @@
 
             <ba-tab tabTitle="{{'tabs.parents' | translate}}">
               <div class="row">
-                <div class="col-12 col-md-6 col-lg-6">
-                  <parent-card></parent-card>
-                </div>
-                <div class="col-12 col-md-6 col-lg-6">
-                  <parent-card></parent-card>
+                <div *ngFor="let parent of parents" class="col-12 col-md-6 col-lg-6">
+                  <parent-card [parent]='parent' (parentDeleteEvent)='removeStudent($event)'></parent-card>
                 </div>
               </div>
             </ba-tab>

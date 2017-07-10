@@ -35,7 +35,7 @@ export class ApiHttpService {
   }
 
   get(resourcePath: string, params?: any): Observable<any> {
-    let url : string = this.url + '/' + resourcePath;
+    let url : string = resourcePath.substr(0, 4) === 'http' ? resourcePath : this.url + '/' + resourcePath;
     if(params) {
       url += '?';
       let arr: string[] = [];

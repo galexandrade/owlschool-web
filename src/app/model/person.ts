@@ -6,7 +6,12 @@ export class Person {
     lastName: string;
     birthDay: Date;
     registerNumber: number;
+    job: string;
     picture: string;
     address: Address;
     contact: Contact;
+
+    constructor(address?: Address){
+        this.address = !address ? new Address() : address;
+    }
 }

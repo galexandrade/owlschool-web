@@ -1,37 +1,39 @@
 <ba-card baCardClass="with-scroll">
+  <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)">
   <div class="row parent_card">
     <div class="col-8">
       <div class="form-group">
         <label for="inputFirstName" translate>person.name</label>
-        <input type="text" class="form-control" id="inputName" placeholder="{{'person.name' | translate}}">
+        <input [formControl]="firstName" [(ngModel)]="parent.person.firstName" type="text" class="form-control" id="inputName" placeholder="{{'person.name' | translate}}">
       </div>
       <div class="form-group">
         <label for="relationship" translate>person.relationship</label>
-        <select class="form-control" id="relationship">
-          <option translate>person.mother</option>
-          <option translate>person.father</option>
+        <select [formControl]="relationship" [(ngModel)]="parent.relationship" class="form-control" id="relationship">
+          <option value="MOTHER" translate>person.mother</option>
+          <option value="FATHER" translate>person.father</option>
           <option translate>person.brother</option>
           <option translate>person.sister</option>
         </select>
       </div>
       <div class="form-group">
         <label for="phone" translate>contact.phone</label>
-        <input type="text" class="form-control" id="phone" placeholder="{{'contact.phone' | translate}}">
+        <input [formControl]="phone" [(ngModel)]="parent.person.contact.phone" type="text" class="form-control" id="phone" placeholder="{{'contact.phone' | translate}}">
       </div>
       <div class="form-group">
         <label for="job" translate>person.job</label>
-        <input type="text" class="form-control" id="job" placeholder="{{'person.job' | translate}}">
+        <input [formControl]="job" [(ngModel)]="parent.person.job" type="text" class="form-control" id="job" placeholder="{{'person.job' | translate}}">
       </div>
       <div class="form-group">
         <label for="email" translate>contact.email</label>
-        <input type="text" class="form-control" id="email" placeholder="{{'contact.email' | translate}}">
+        <input [formControl]="email" [(ngModel)]="parent.person.contact.email" type="text" class="form-control" id="email" placeholder="{{'contact.email' | translate}}">
       </div>
     </div>
     <div class="col-4">
-      <img src="{{ ( 'Vlad' | baProfilePicture ) }}">
+      <img src="{{ ( parent.person.picture | baProfilePicture ) }}">
       <button type="button" class="btn btn-success btn-block btn-sm">Chat</button>
-      <button type="button" class="btn btn-primary btn-block btn-sm">Edit</button>
-      <button type="button" class="btn btn-danger btn-block btn-sm">Remove</button>
+      <button type="submit" class="btn btn-primary btn-block btn-sm">Update</button>
+      <button type="button" class="btn btn-danger btn-block btn-sm" (click)='remove()'>Remove</button>
     </div>
   </div>
+  </form>
 </ba-card>

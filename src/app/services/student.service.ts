@@ -31,4 +31,14 @@ export class StudentService{
     return this.http.delete(url);
   }
 
+  getClassRoom(student: Student): Observable<any> {
+    let url: string = student._links.classRoom.href;
+    return this.http.get(url);
+  }
+
+  getParents(student: Student): Observable<any> {
+    let url: string = student._links.parents.href;
+    return this.http.get(url);
+  }
+
 }

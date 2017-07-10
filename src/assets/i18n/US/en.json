@@ -159,6 +159,7 @@
     "name": "Name",
     "age": "Age",
     "birthday": "Birthday",
+    "job": "Job",
     "class": "Class",
     "relationship": "Relationship",
     "mother": "Mother",
