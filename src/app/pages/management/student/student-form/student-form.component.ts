@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ToasterService } from 'angular2-toaster';
 import { Router, ActivatedRoute } from '@angular/router';
 import {FormGroup, AbstractControl, FormBuilder, Validators} from '@angular/forms';
+
 import { GlobalState } from '../../../../global.state';
 import { StudentService } from '../../../../services/student.service';
 import { Student } from '../../../../model/student';
@@ -13,7 +14,8 @@ import { Parent } from "../../../../model/parent";
   styleUrls: ['./student-form.component.scss']
 })
 export class StudentFormComponent implements OnInit {
-  public form:FormGroup;
+
+  public form: FormGroup;
   private firstName: AbstractControl;
   private birthDay: AbstractControl;
   private classRoom: AbstractControl;
@@ -66,7 +68,7 @@ export class StudentFormComponent implements OnInit {
       this.studentService.get(this.studentId.toString()).subscribe(
         res => {
           this.student = res;
-          console.info('STUDENT', this.student);
+          this._state.updatePageName("general.menu.students", this.student.person.firstName);
           this.getParents();
         }
       );
@@ -74,7 +76,7 @@ export class StudentFormComponent implements OnInit {
   }
 
   ngOnInit() {
-
+    //this._state.updatePageName("general.menu.students");
   }
 
   onSubmit(values: Object): void{

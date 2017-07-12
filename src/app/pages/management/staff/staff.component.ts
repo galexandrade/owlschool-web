@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {GlobalState} from 'app/global.state';
 
 @Component({
   selector: 'app-staff',
@@ -7,7 +8,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class StaffComponent implements OnInit {
 
-  constructor() { }
+  constructor(private _state:GlobalState) {
+    this._state.updatePageName("general.menu.staff");
+  }
 
   ngOnInit() {
   }

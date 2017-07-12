@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FormGroup, AbstractControl, FormBuilder, Validators} from '@angular/forms';
 import { ToasterService } from 'angular2-toaster';
+import {GlobalState} from '../../../global.state';
 
 import { SchoolService } from '../../../services/school.service';
 import { AuthService } from '../../../core/auth.service';
@@ -28,7 +29,8 @@ export class SchoolComponent implements OnInit {
   private website: AbstractControl;
 
 
-  constructor(private fb:FormBuilder,
+  constructor(private _state:GlobalState,
+              private fb:FormBuilder,
               private schoolService: SchoolService,
               private authService: AuthService,
               private toaster: ToasterService) {
@@ -65,6 +67,7 @@ export class SchoolComponent implements OnInit {
    }
 
   ngOnInit() {
+    this._state.updatePageName("general.menu.school");
   }
 
   onSubmit(values: Object): void{

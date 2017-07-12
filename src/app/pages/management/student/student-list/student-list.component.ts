@@ -3,6 +3,7 @@ import { ToasterService } from 'angular2-toaster';
 import { StudentService } from '../../../../services/student.service';
 import { Student } from '../../../../model/student';
 import { StudentCardComponent } from '../student-card/student-card.component';
+import { GlobalState } from "app/global.state";
 
 @Component({
   selector: 'app-student-list',
@@ -12,10 +13,12 @@ import { StudentCardComponent } from '../student-card/student-card.component';
 export class StudentListComponent implements OnInit {
   students: Student[];
 
-  constructor(private studentService: StudentService,
+  constructor(private _state:GlobalState,
+              private studentService: StudentService,
               private toaster: ToasterService) { }
 
   ngOnInit() {
+    this._state.updatePageName("general.menu.students");
     this.students = new Array<Student>();
     this.loadStudents();
   }

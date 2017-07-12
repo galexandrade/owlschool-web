@@ -1,4 +1,5 @@
 import {Component} from '@angular/core';
+import {GlobalState} from 'app/global.state';
 
 @Component({
   selector: 'events',
@@ -7,6 +8,7 @@ import {Component} from '@angular/core';
 })
 export class Events {
 
-  constructor() {
+  constructor(private _state:GlobalState) {
+    this._state.updatePageName("general.menu.events");
   }
 }

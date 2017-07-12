@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import { Subject }    from 'rxjs/Subject';
 
 @Injectable()
@@ -9,13 +9,15 @@ export class GlobalState {
 
   private _subscriptions: Map<string, Array<Function>> = new Map<string, Array<Function>>();
 
+  private activePageName: string;
+  private activePageSubName: string;
+  activePageNameChanged = new EventEmitter<string[]>();
+
   constructor() {
     this._dataStream$.subscribe((data) => this._onEvent(data));
   }
 
   notifyDataChanged(event, value) {
-    console.log(event);
-    console.log(value);
     let current = this._data[event];
     if (current !== value) {
       this._data[event] = value;
@@ -40,5 +42,11 @@ export class GlobalState {
     subscribers.forEach((callback) => {
       callback.call(null, data['data']);
     });
+  }
+
+  public updatePageName(pageName: string, pageSubName?: string){
+    this.activePageName = pageName;
+    this.activePageSubName = pageSubName;
+    this.activePageNameChanged.emit([this.activePageName, this.activePageSubName]);
   }
 }

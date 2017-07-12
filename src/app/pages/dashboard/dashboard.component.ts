@@ -1,4 +1,5 @@
 import {Component} from '@angular/core';
+import {GlobalState} from '../../global.state';
 
 @Component({
   selector: 'dashboard',
@@ -7,7 +8,8 @@ import {Component} from '@angular/core';
 })
 export class Dashboard {
 
-  constructor() {
+  constructor(private _state:GlobalState) {
+    this._state.updatePageName("general.menu.dashboard");
   }
 
 }

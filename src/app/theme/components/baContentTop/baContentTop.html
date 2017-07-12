@@ -1,10 +1,14 @@
 <div class="content-top clearfix">
-  <h1 class="al-title" translate>{{ activePageTitle }}</h1>
+  <h1 class="al-title" translate>{{ activePageTitle }} </h1>
+  <h2 class="al-subtitle">{{ activePageSubTitle ? '- ' + activePageSubTitle : '' }}</h2>
 
   <ul class="breadcrumb al-breadcrumb">
     <li class="breadcrumb-item">
       <a routerLink="/pages/dashboard" translate>{{'general.home'}}</a>
     </li>
-    <li class="breadcrumb-item active" translate>{{ activePageTitle }}</li>
+    <li class="breadcrumb-item" *ngIf="activePageSubTitle">
+      <a (click)="goBack()" translate>{{activePageTitle}}</a>
+    </li>
+    <li class="breadcrumb-item active">{{ !activePageSubTitle ? (activePageTitle | translate) : activePageSubTitle }}</li>
   </ul>
 </div>

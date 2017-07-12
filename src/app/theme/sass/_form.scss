@@ -40,7 +40,7 @@
 }
 
 .form-control {
-  color: $content-text;
+  color: $sidebar-text; //$content-text;
   @include placeholderStyle($content-text, 0.7);
   border: 1px solid $input-border;
   border-radius: 5px;
@@ -48,7 +48,7 @@
   box-shadow: none;
   font-size: 14px;
   &:focus {
-    color: $content-text;
+    color: $sidebar-text; //$content-text;
     box-shadow: none;
     border-color: $primary-bg;
     background: $input-background;
