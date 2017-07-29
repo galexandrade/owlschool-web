@@ -3,7 +3,14 @@
     border-radius: 50%;
 }
 
+.picture-box{
+    text-align: center;
+}
+
 button.btn_change_picture{
-    margin-top: -70%;
-    margin-left: 13%;
+    //margin-top: -70%;
+    //margin-left: 13%;
+    color: #ffffff !important;
+    background-color: rgba(#248eb8, 1) !important;
+    margin-top: 5px;
 }

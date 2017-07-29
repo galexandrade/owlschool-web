@@ -1,7 +1,11 @@
 <div class="row">
     <div class="col-md-12">
-      <div>
+      <form (ngSubmit)="onSubmit(form.value)">
         <ba-card baCardClass="with-scroll">
+          <div class="pull-right action-menu">
+            <button type="submit" class="btn btn-success" translate>form.save</button>
+            <button class="btn btn-danger" translate>form.cancel</button>
+          </div>
           <ba-tabs>
             <ba-tab tabTitle="{{'tabs.general' | translate}}">
               <div class="row">
@@ -13,7 +17,6 @@
                   </button>
                 </div>
                 <div class="col-sm-6">
-                  <form>
                     <div class="form-group">
                       <label for="name" translate>person.name</label>
                       <input type="text" class="form-control" id="name" placeholder="{{'person.name' | translate}}">
@@ -30,17 +33,15 @@
                         <option value="" translate>professional.monitor</option>
                       </select>
                     </div>
-                    <button type="submit" class="btn btn-success" translate>form.save</button>
-                  </form>
                 </div>
               </div>
-            </ba-tab> 
+            </ba-tab>
 
             <ba-tab tabTitle="{{'tabs.matters' | translate}}">
               <div class="row">
                 <div class="col-md-6 offset-md-3">
-                  <div class="form-horizontal">  
-                    <div class="input-group">  
+                  <div class="form-horizontal">
+                    <div class="input-group">
                       <select class="form-control">
                         <option translate>matter.math</option>
                         <option translate>matter.history</option>
@@ -132,7 +133,6 @@
                 </div>
 
                 <div class="col-md-6 offset-md-3">
-                  <form>
                     <div class="form-group">
                       <label for="email" translate>login.email</label>
                       <input type="text" class="form-control" id="email" placeholder="{{'login.email' | translate}}">
@@ -145,13 +145,11 @@
                       <label for="confirm_password" translate>login.password</label>
                       <input type="text" class="form-control" id="confirm_password" placeholder="{{'login.confirm_password' | translate}}">
                     </div>
-                    <button type="submit" class="btn btn-success" translate>form.save</button>
-                  </form>
                 </div>
               </div>
-            </ba-tab>           
+            </ba-tab>
           </ba-tabs>
         </ba-card>
-      </div>
+      </form>
     </div>
 </div>

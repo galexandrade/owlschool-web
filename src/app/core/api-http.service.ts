@@ -34,6 +34,15 @@ export class ApiHttpService {
       .refCount();
   }
 
+  patch(resourcePath: string, data: any): Observable<any> {
+    let url : string = this.url + '/' + resourcePath;
+    return this.http.patch(url, data)
+      .map(res => this.decodeSuccess(res))
+      .catch((error: any) => Observable.throw(this.decodeError(error.json())))
+      .publishLast()
+      .refCount();
+  }
+
   get(resourcePath: string, params?: any): Observable<any> {
     let url : string = resourcePath.substr(0, 4) === 'http' ? resourcePath : this.url + '/' + resourcePath;
     if(params) {

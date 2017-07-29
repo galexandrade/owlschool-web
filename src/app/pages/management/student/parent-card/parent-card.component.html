@@ -29,10 +29,10 @@
       </div>
     </div>
     <div class="col-4">
-      <img src="{{ ( parent.person.picture | baProfilePicture ) }}">
-      <button type="button" class="btn btn-success btn-block btn-sm">Chat</button>
-      <button type="submit" class="btn btn-primary btn-block btn-sm">Update</button>
-      <button type="button" class="btn btn-danger btn-block btn-sm" (click)='remove()'>Remove</button>
+      <img src="{{ ( (!id || !parent.person.picture ? 'default' : parent.person.picture) | baProfilePicture ) }}">
+      <button type="button" class="btn btn-info btn-block btn-sm">{{'form.changePicture' | translate}}</button>
+      <button type="submit" class="btn btn-success btn-block btn-sm" translate>form.save</button>
+      <button type="button" class="btn btn-danger btn-block btn-sm" (click)='remove()' translate>form.remove</button>
     </div>
   </div>
   </form>

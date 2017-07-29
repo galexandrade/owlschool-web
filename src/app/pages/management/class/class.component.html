@@ -1,44 +1,45 @@
 <div class="row">
     <div class="col-md-12">
-      <div>
+      <form (ngSubmit)="onSubmit(form.value)">
         <ba-card baCardClass="with-scroll">
+          <div class="pull-right action-menu">
+            <button type="submit" class="btn btn-success" translate>form.save</button>
+            <button class="btn btn-danger" translate>form.cancel</button>
+          </div>
           <ba-tabs>
             <ba-tab tabTitle="{{'tabs.general' | translate}}">
               <div class="row">
                 <div class="col-md-6 offset-md-3">
-                  <form>
-                    <div class="form-group">
-                      <label for="name" translate>person.name</label>
-                      <input type="text" class="form-control" id="name" placeholder="{{'person.name' | translate}}">
-                    </div>
-                    <div class="form-group">
-                      <label for="period" translate>class.period</label>
-                      <select class="form-control" id="period">
-                        <option value="" translate>class.morning</option>
-                        <option value="" translate>class.afternoon</option>
-                        <option value="" translate>class.integral</option>
-                      </select>
-                    </div>
-                    <div class="form-group">
-                      <label for="main_teacher" translate>class.main_teacher</label>
-                      <select class="form-control" id="main_teacher">
-                        <option value="" translate>Aline Stark</option>
-                        <option value="" translate>Aline Stark</option>
-                        <option value="" translate>Aline Stark</option>
-                        <option value="" translate>Aline Stark</option>
-                      </select>
-                    </div>
-                    <button type="submit" class="btn btn-success" translate>form.save</button>
-                  </form>
+                  <div class="form-group">
+                    <label for="name" translate>person.name</label>
+                    <input type="text" class="form-control" id="name" placeholder="{{'person.name' | translate}}">
+                  </div>
+                  <div class="form-group">
+                    <label for="period" translate>class.period</label>
+                    <select class="form-control" id="period">
+                      <option value="" translate>class.morning</option>
+                      <option value="" translate>class.afternoon</option>
+                      <option value="" translate>class.integral</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="main_teacher" translate>class.main_teacher</label>
+                    <select class="form-control" id="main_teacher">
+                      <option value="" translate>Aline Stark</option>
+                      <option value="" translate>Aline Stark</option>
+                      <option value="" translate>Aline Stark</option>
+                      <option value="" translate>Aline Stark</option>
+                    </select>
+                  </div>
                 </div>
               </div>
             </ba-tab>
-            
+
             <ba-tab tabTitle="{{'tabs.teachers' | translate}}">
               <div class="row">
                 <div class="col-md-8 offset-md-2">
-                  <div class="form-horizontal">  
-                    <div class="input-group">  
+                  <div class="form-horizontal">
+                    <div class="input-group">
                       <select class="form-control">
                         <option translate>matter.math</option>
                         <option translate>matter.history</option>
@@ -94,7 +95,7 @@
                 </div>
               </div>
             </ba-tab>
-            
+
             <ba-tab tabTitle="{{'tabs.schedule' | translate}}">
               <div class="row schedule">
                 <div class="col-12">
@@ -109,7 +110,7 @@
                   <ba-card title="Monday" baCardClass="with-scroll" dnd-droppable (onDropSuccess)="addToScheduleMon($event)">
                     <div class="drag_default" *ngIf="scheduleMon.length == 0">Drag here!</div>
                     <div *ngFor="let matter of scheduleMon" class="matter">
-                      {{matter.name}} 
+                      {{matter.name}}
                       <a (click)="removeScheduleMon(matter)"><i class="ion-close-round"></i></a>
                     </div>
                   </ba-card>
@@ -172,8 +173,8 @@
                       {{matter.name}}
                       <a (click)="removeScheduleSun(matter)"><i class="ion-close-round"></i></a>
                     </div>
-                  </ba-card>                
-                </div>               
+                  </ba-card>
+                </div>
               </div>
             </ba-tab>
 
@@ -181,7 +182,7 @@
               <div class="row">
                 <div class="col-12">
                   <ba-card>
-                    <div class="form-horizontal">         
+                    <div class="form-horizontal">
                       <div class="input-group">
                         <input type="search" class="form-control" id="input01" placeholder="{{'form.search' | translate}}">
                         <button type="button" class="btn btn-success btn-icon"><i class="ion-plus-round"></i> Add</button>
@@ -199,6 +200,6 @@
             </ba-tab>
           </ba-tabs>
         </ba-card>
-      </div>
+      </form>
     </div>
 </div>

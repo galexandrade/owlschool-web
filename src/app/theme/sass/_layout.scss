@@ -64,6 +64,11 @@ a {
   padding: 66px 0 34px 0;
   min-height: 500px;
   position: relative;
+  .content-bar{
+      width: 100%;
+      height: $menu-bar-height;
+      background-color: $menu-bar-dark;
+  }
 }
 
 .al-footer {
@@ -85,6 +90,10 @@ a {
 
 .al-copy {
   float: left;
+}
+
+.al-copy a{
+  color: $default-text;
 }
 
 .al-footer-right {

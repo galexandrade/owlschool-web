@@ -80,6 +80,7 @@
       width: 45px;
       height: 45px;
       border-radius: 50%;
+      border: 1px solid $sidebar-text;
     }
   }
 
@@ -144,6 +145,7 @@
     width: 162px;
     float: left;
     margin: 20px 0 0 30px;
+    color: $sidebar-text;
 
     label {
       cursor: pointer;
@@ -166,6 +168,9 @@
       margin: 0 0 0 -3px;
       height: 27px;
     }
+    input::placeholder{
+        color: white;
+      }
   }
 
   @media screen and (max-width: $resS) {

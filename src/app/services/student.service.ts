@@ -21,6 +21,11 @@ export class StudentService{
     return this.http.put(url, student);
   }
 
+  patch(key: string, student: Student): Observable<any> {
+    let url: string = this.resourcePath + '/' + key;
+    return this.http.patch(url, student);
+  }
+
   get(path?: string, params?: any): Observable<any> {
     let url: string = this.resourcePath + (path ? '/' + path : '');
     return this.http.get(url, params);

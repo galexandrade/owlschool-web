@@ -5,6 +5,7 @@ export class Student {
     id;
     person: Person;
     classRoom: ClassRoom;
+    parents: string[] = [];
 
     _links: any;
 

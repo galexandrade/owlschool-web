@@ -1,1 +1,7 @@
 @import '../../sass/conf/conf';
+
+.menu-bar{
+    width: 100%;
+    height: $menu-bar-height;
+    background-color: $menu-bar-light;
+}

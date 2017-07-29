@@ -16,7 +16,7 @@
         </table>
       </div>
       <div class="col-4">
-        <img src="{{ ( 'Vlad' | baProfilePicture ) }}">
+        <img src="{{ ( (!student.person.picture ? 'default' : student.person.picture) | baProfilePicture ) }}">
         <button routerLink="/pages/management/students/{{student.id}}" type="button" class="btn btn-success btn-block btn-sm">View Profile</button>
         <button (click)="remove()" type="button" class="btn btn-danger btn-block btn-sm">Remove</button>
       </div>

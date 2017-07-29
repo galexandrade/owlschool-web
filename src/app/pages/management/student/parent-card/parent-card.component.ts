@@ -23,6 +23,7 @@ export class ParentCardComponent implements OnInit {
   private email: AbstractControl;
   private phone: AbstractControl;
   private job: AbstractControl;
+  private id: string;
 
   constructor(private fb:FormBuilder,
               private parentService: ParentService,
@@ -44,31 +45,39 @@ export class ParentCardComponent implements OnInit {
   }
 
   ngOnInit() {
+    if(this.parent._links){
+      let split = this.parent._links.self.href.split('/');
+      this.id = split[split.length - 1];
+    }
   }
 
   onSubmit(values: Object): void{
-    let split = this.parent._links.self.href.split('/');
-    let id = split[split.length - 1];
-    this.parentService.update(id, this.parent).subscribe(
-      (res: any) => this.toaster.pop({
-                        type: 'success',
-                        body: 'Updated with success!'
-                    })
-    );
+    if(this.id){
+      this.parentService.update(this.id, this.parent).subscribe(
+        (res: any) => this.toaster.pop({
+                          type: 'success',
+                          body: 'Updated with success!'
+                      })
+      );
+    }
+    else{
+      this.parentService.create(this.parent).subscribe(
+        (res: any) => {
+          this.parent._links = res._links;
+          let split = this.parent._links.self.href.split('/');
+          this.id = split[split.length - 1];
+          console.log(res);
+          this.toaster.pop({
+                          type: 'success',
+                          body: 'Created with success!'
+                      })
+        }
+      );
+    }
   }
 
   remove(){
-    let split = this.parent._links.self.href.split('/');
-    let id = split[split.length - 1];
-    this.parentService.delete(id).subscribe(
-      res => {
-          this.parentDeleteEvent.next(this.parent);
-          this.toaster.pop({
-                  type: 'success',
-                  body: 'Deleted with success!'
-              })
-      }
-    );
+    this.parentDeleteEvent.emit(this.parent);
   }
 
 }

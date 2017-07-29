@@ -9,7 +9,7 @@ import {GlobalState} from 'app/global.state';
 export class StaffComponent implements OnInit {
 
   constructor(private _state:GlobalState) {
-    this._state.updatePageName("general.menu.staff");
+    this._state.updatePageName("general.menu.team");
   }
 
   ngOnInit() {

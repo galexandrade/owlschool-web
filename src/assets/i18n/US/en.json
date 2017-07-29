@@ -131,6 +131,8 @@
     "cancel": "Cancel",
     "new": "Add new",
     "add": "Add",
+    "addParent": "Add Parent",
+    "changePicture": "Change Picture",
     "search": "Search",
     "orderby": "Order by",
     "upload": "Upload",

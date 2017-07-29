@@ -11,7 +11,8 @@ export class Person {
     address: Address;
     contact: Contact;
 
-    constructor(address?: Address){
+    constructor(address?: Address, contact?: Contact){
         this.address = !address ? new Address() : address;
+        this.contact = !contact ? new Contact() : contact;
     }
 }

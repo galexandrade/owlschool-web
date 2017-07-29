@@ -1,3 +1,9 @@
+.action-menu{
+  position: absolute;
+  margin-top:-9px;
+  right: 20px;
+}
+
 .label {
   border-radius: 0;
 }
@@ -40,7 +46,7 @@
 }
 
 .form-control {
-  color: $sidebar-text; //$content-text;
+  color: $content-text;
   @include placeholderStyle($content-text, 0.7);
   border: 1px solid $input-border;
   border-radius: 5px;
@@ -48,7 +54,7 @@
   box-shadow: none;
   font-size: 14px;
   &:focus {
-    color: $sidebar-text; //$content-text;
+    color: $content-text;
     box-shadow: none;
     border-color: $primary-bg;
     background: $input-background;
@@ -179,7 +185,7 @@ textarea.form-control {
 
 .input-group {
   width: 100%;
-  margin-bottom: 15px;
+  //margin-bottom: 15px;
   & > span {
     border-radius: 0;
   }
