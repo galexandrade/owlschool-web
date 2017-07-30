@@ -3,34 +3,48 @@
       <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)">
         <ba-card baCardClass="with-scroll">
           <div class="pull-right action-menu">
-            <button *ngIf="activeTab === ('tabs.parents' | translate)" (click)='addParent()' type="button" class="btn btn-info" translate>form.addParent</button>
-            <button type="submit" class="btn btn-success" translate>form.save</button>
-            <button (click)="goBack()" type="button" class="btn btn-danger" translate>form.cancel</button>
+            <button type="button" class="btn btn-info" routerLink="./edit" *ngIf="!isEditing" translate>form.edit</button>
+            <button *ngIf="isEditing && activeTab === ('tabs.parents' | translate)" (click)='addParent()' type="button" class="btn btn-info" translate>form.addParent</button>
+            <button type="submit" class="btn btn-success" *ngIf="isEditing" translate>form.save</button>
+            <button (click)="goBack()" type="button" class="btn btn-danger" *ngIf="isEditing" translate>form.cancel</button>
           </div>
           <ba-tabs (tabChanged)='activeTab = $event'>
             <ba-tab tabTitle="{{'tabs.general' | translate}}">
               <div class="row">
                 <div class="col-sm-4 col-md-3 offset-md-1 picture-box">
                   <img src="{{ ( (!studentId || !student.person.picture ? 'default' : student.person.picture) | baProfilePicture ) }}" class="img_round">
-                  <button class="btn btn-default btn_change_picture">
+                  <button class="btn btn-default btn_change_picture" *ngIf="isEditing">
                     {{'form.changePicture' | translate}}
                     <i class="ion-camera"></i>
                   </button>
                 </div>
                 <div class="col-sm-6">
-                  <div class="form-group">
-                    <label for="name" translate>person.name</label>
-                    <input type="text" [formControl]="firstName" [(ngModel)]="student && student.person.firstName" class="form-control" id="name" placeholder="{{'person.name' | translate}}">
+                  <div class="form-group row">
+                    <div class="col-sm-6" *ngIf="isEditing">
+                      <label for="name" translate>person.firstName</label>
+                      <input type="text" [formControl]="firstName" [(ngModel)]="student && student.person.firstName" class="form-control" id="name" placeholder="{{'person.firstName' | translate}}">
+                    </div>
+                    <div class="col-sm-6" *ngIf="isEditing">
+                      <label for="lastName" translate>person.lastName</label>
+                      <input type="text" [formControl]="lastName" [(ngModel)]="student && student.person.lastName" class="form-control" id="lastName" placeholder="{{'person.lastName' | translate}}">
+                    </div>
+                    <div class="col-sm-12" *ngIf="!isEditing">
+                      <label for="name" translate>person.name</label>
+                      <input type="text" [value]="student && student.person && student.person.firstName + ' ' + student.person.lastName" [attr.readonly]="!isEditing ? true : null" class="form-control" id="name" placeholder="{{'person.firstName' | translate}}">
+                    </div>
                   </div>
-                  <div class="form-group">
-                    <label for="birthday" translate>person.birthday</label>
-                    <input type="text"  [formControl]="birthDay" [(ngModel)]="student && student.person.birthDay" class="form-control" id="birthday" placeholder="{{'person.birthday' | translate}}">
+                  <div class="form-group row">
+                    <div class="col-sm-6">
+                      <label for="birthday" translate>person.birthday</label>
+                      <input type="text"  [formControl]="birthDay" [(ngModel)]="student && student.person.birthDay" [attr.readonly]="!isEditing ? true : null" class="form-control" id="birthday" placeholder="{{'person.birthday' | translate}}">
+                    </div>
                   </div>
                   <div class="form-group">
                     <label for="class" translate>person.class</label>
-                    <select [formControl]="classRoom" class="form-control" id="class">
+                    <select [formControl]="classRoom" *ngIf="isEditing" [attr.readonly]="!isEditing ? true : null" class="form-control" id="class">
                       <option value=""></option>
                     </select>
+                    <input type="text" *ngIf="!isEditing" [attr.readonly]="!isEditing ? true : null" class="form-control">
                   </div>
                 </div>
               </div>
@@ -39,38 +53,46 @@
             <ba-tab tabTitle="{{'tabs.location' | translate}}">
               <div class="row">
                 <div class="col-md-6 offset-md-3">
-                  <div class="form-group">
-                    <label for="country" translate>location.country</label>
-                    <select class="form-control" id="country">
-                      <option value="BLR">Brazil</option>
-                      <option value="MEX">Mexico</option>
-                      <option value="ARG">Argentina</option>
-                      <option value="EUA">United States</option>
-                    </select>
+                  <div class="form-group row">
+                    <div class="col-md-6">
+                      <label for="country" translate>location.country</label>
+                      <select class="form-control" id="country" *ngIf="isEditing">
+                        <option value="BLR">Brazil</option>
+                        <option value="MEX">Mexico</option>
+                        <option value="ARG">Argentina</option>
+                        <option value="EUA">United States</option>
+                      </select>
+                      <input type="text" *ngIf="!isEditing" [attr.readonly]="!isEditing ? true : null" class="form-control">
+                    </div>
+                    <div class="col-md-6">
+                      <label for="state" translate>location.state</label>
+                      <select class="form-control" *ngIf="isEditing" id="state">
+                        <option value="PR">Paraná</option>
+                        <option value="SP">São Paulo</option>
+                        <option value="SC">Santa Catarina</option>
+                      </select>
+                      <input type="text" *ngIf="!isEditing" [attr.readonly]="!isEditing ? true : null" class="form-control">
+                    </div>
                   </div>
-                  <div class="form-group">
-                    <label for="state" translate>location.state</label>
-                    <select class="form-control" id="state">
-                      <option value="PR">Paraná</option>
-                      <option value="SP">São Paulo</option>
-                      <option value="SC">Santa Catarina</option>
-                    </select>
-                  </div>
-                  <div class="form-group">
-                    <label for="postal_code" translate>location.postal_code</label>
-                    <input [formControl]="postalCode" [(ngModel)]="student && student.person && student.person.address.postalCode" type="text" class="form-control" id="postal_code" placeholder="{{'location.postal_code' | translate}}">
-                  </div>
-                  <div class="form-group">
-                    <label for="city" translate>location.city</label>
-                    <input [formControl]="city" [(ngModel)]="student && student.person && student.person.address.city" type="text" class="form-control" id="city" placeholder="{{'location.city' | translate}}">
+                  <div class="form-group row">
+                    <div class="col-md-6">
+                      <label for="postal_code" translate>location.postal_code</label>
+                      <input [formControl]="postalCode" [(ngModel)]="student && student.person && student.person.address.postalCode" [attr.readonly]="!isEditing ? true : null" type="text" class="form-control" id="postal_code" placeholder="{{'location.postal_code' | translate}}">
+                    </div>
+                    <div class="col-md-6">
+                      <label for="city" translate>location.city</label>
+                      <input [formControl]="city" [(ngModel)]="student && student.person && student.person.address.city" [attr.readonly]="!isEditing ? true : null" type="text" class="form-control" id="city" placeholder="{{'location.city' | translate}}">
+                    </div>
                   </div>
                   <div class="form-group">
                     <label for="address" translate>location.address</label>
-                    <input [formControl]="address" [(ngModel)]="student && student.person && student.person.address.address" type="text" class="form-control" id="address" placeholder="{{'location.address' | translate}}">
+                    <input [formControl]="address" [(ngModel)]="student && student.person && student.person.address.address" [attr.readonly]="!isEditing ? true : null" type="text" class="form-control" id="address" placeholder="{{'location.address' | translate}}">
                   </div>
-                  <div class="form-group">
-                    <label for="number" translate>location.number</label>
-                    <input [formControl]="number" [(ngModel)]="student && student.person && student.person.address.number" type="text" class="form-control" id="number" placeholder="{{'location.number' | translate}}">
+                  <div class="form-group row">
+                    <div class="col-md-6">
+                      <label for="number" translate>location.number</label>
+                      <input [formControl]="number" [(ngModel)]="student && student.person && student.person.address.number" [attr.readonly]="!isEditing ? true : null" type="number" class="form-control" id="number" placeholder="{{'location.number' | translate}}">
+                    </div>
                   </div>
                 </div>
               </div>
@@ -79,7 +101,7 @@
             <ba-tab tabTitle="{{'tabs.parents' | translate}}">
               <div class="row">
                 <div *ngFor="let parent of parents" class="col-12 col-md-6 col-lg-6">
-                  <parent-card [parent]='parent' (parentDeleteEvent)='removeParent($event)'></parent-card>
+                  <parent-card [parent]='parent' [editMode]="isEditing" (parentDeleteEvent)='removeParent($event)'></parent-card>
                 </div>
                 <div *ngIf='parents.length === 0'>
                   <p class="text-danger">

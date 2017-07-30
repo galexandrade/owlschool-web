@@ -3,6 +3,9 @@ import { ToasterService } from 'angular2-toaster';
 import {FormGroup, AbstractControl, FormBuilder, Validators} from '@angular/forms';
 import { Parent } from "app/model/parent";
 import { ParentService } from "app/services/parent.service";
+import { Subject } from "rxjs/Subject";
+import { Observable } from "rxjs/Observable";
+import * as _ from "lodash";
 
 @Component({
   selector: 'parent-card',
@@ -13,11 +16,18 @@ export class ParentCardComponent implements OnInit {
   @Input()
   parent: Parent;
 
+  @Input()
+  editMode: boolean;
+
   @Output()
   parentDeleteEvent = new EventEmitter<Parent>();
 
+  searchParents: Parent[];
+  private searchTerms = new Subject<string>();
+
   public form:FormGroup;
   private firstName: AbstractControl;
+  private lastName: AbstractControl;
   private relationship: AbstractControl;
 
   private email: AbstractControl;
@@ -31,6 +41,7 @@ export class ParentCardComponent implements OnInit {
 
     this.form = this.fb.group({
       'firstName': ['', Validators.compose([Validators.required, Validators.minLength(15)])],
+      'lastName': ['', Validators.compose([Validators.required, Validators.minLength(15)])],
       'relationship': ['', Validators.compose([Validators.required])],
       'email': ['', Validators.compose([Validators.required, Validators.email])],
       'phone': ['', Validators.compose([Validators.required])],
@@ -38,6 +49,7 @@ export class ParentCardComponent implements OnInit {
     });
 
     this.firstName = this.form.controls['firstName'];
+    this.lastName = this.form.controls['lastName'];
     this.relationship = this.form.controls['relationship'];
     this.email = this.form.controls['email'];
     this.phone = this.form.controls['phone'];
@@ -48,6 +60,27 @@ export class ParentCardComponent implements OnInit {
     if(this.parent._links){
       let split = this.parent._links.self.href.split('/');
       this.id = split[split.length - 1];
+    }
+
+    this.parentService.search(this.searchTerms)
+      .subscribe(parents => {
+        parents.forEach(eleParent => {
+          console.info(eleParent.person.firstName, this.parent.person.firstName);
+          console.info(eleParent.person.lastName, this.parent.person.lastName);
+          if(eleParent.person.firstName === this.parent.person.firstName &&
+             eleParent.person.lastName === this.parent.person.lastName)
+             parents.slice(parents.indexOf(eleParent));
+        });
+        this.searchParents = parents;
+      });
+  }
+
+  // Push a search term into the observable stream.
+  search(term: string): void {
+    if(term !== '')
+      this.searchTerms.next(term);
+    else{
+      this.searchParents = [];
     }
   }
 
@@ -78,6 +111,16 @@ export class ParentCardComponent implements OnInit {
 
   remove(){
     this.parentDeleteEvent.emit(this.parent);
+  }
+
+  selectParentSearch(parentSearch: Parent){
+    this.parent._links = parentSearch._links;
+    this.parent.person = parentSearch.person;
+    this.parent.relationship = parentSearch.relationship;
+
+    this.searchParents = [];
+    let split = this.parent._links.self.href.split('/');
+    this.id = split[split.length - 1];
   }
 
 }

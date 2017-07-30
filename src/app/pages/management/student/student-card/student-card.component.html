@@ -1,4 +1,4 @@
-  <ba-card baCardClass="with-scroll">
+  <ba-card baCardClass="with-scroll" routerLink="./{{student.id}}">
     <div class="row student_card">
       <div class="col-8">
         <h5>{{student.person.firstName}} {{student.person.lastName}}</h5>
@@ -17,8 +17,6 @@
       </div>
       <div class="col-4">
         <img src="{{ ( (!student.person.picture ? 'default' : student.person.picture) | baProfilePicture ) }}">
-        <button routerLink="/pages/management/students/{{student.id}}" type="button" class="btn btn-success btn-block btn-sm">View Profile</button>
-        <button (click)="remove()" type="button" class="btn btn-danger btn-block btn-sm">Remove</button>
       </div>
     </div>
   </ba-card>

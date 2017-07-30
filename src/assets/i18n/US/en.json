@@ -131,13 +131,15 @@
     "cancel": "Cancel",
     "new": "Add new",
     "add": "Add",
+    "edit": "Edit",
     "addParent": "Add Parent",
     "changePicture": "Change Picture",
     "search": "Search",
     "orderby": "Order by",
     "upload": "Upload",
     "drag_here": "Drag here",
-    "remove": "Remove"
+    "remove": "Remove",
+    "view-profile": "View Profile"
   },
   "school": {
     "name": "Name",
@@ -159,6 +161,8 @@
   },
   "person": {
     "name": "Name",
+    "firstName": "First name",
+    "lastName": "Last name",
     "age": "Age",
     "birthday": "Birthday",
     "job": "Job",
@@ -171,10 +175,10 @@
   },
   "professional": {
     "job": "job",
-    "function": "function",
-    "teacher": "teacher",
-    "recepcionist": "recepcionist",
-    "monitor": "monitor"
+    "function": "Function",
+    "teacher": "Teacher",
+    "recepcionist": "Recepcionist",
+    "monitor": "Monitor"
   },
   "security": {
     "can_create_event": "Create event",

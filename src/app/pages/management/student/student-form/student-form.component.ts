@@ -16,9 +16,11 @@ import { Parent } from "../../../../model/parent";
   styleUrls: ['./student-form.component.scss']
 })
 export class StudentFormComponent implements OnInit {
+  private isEditing: boolean = false;
 
   public form: FormGroup;
   private firstName: AbstractControl;
+  private lastName: AbstractControl;
   private birthDay: AbstractControl;
   private classRoom: AbstractControl;
 
@@ -44,8 +46,12 @@ export class StudentFormComponent implements OnInit {
               private route: ActivatedRoute,
               private router: Router) {
 
+    if(route.snapshot.url[route.snapshot.url.length - 1].path === 'edit')
+      this.isEditing = true;
+
     this.form = this.fb.group({
       'firstName': ['', Validators.compose([Validators.required, Validators.minLength(15)])],
+      'lastName': ['', Validators.compose([Validators.required, Validators.minLength(15)])],
       'birthDay': ['', Validators.compose([Validators.required])],
       'classRoom': ['', Validators.compose([Validators.required])],
       'address': ['', Validators.compose([Validators.required])],
@@ -57,6 +63,7 @@ export class StudentFormComponent implements OnInit {
     });
 
     this.firstName = this.form.controls['firstName'];
+    this.lastName = this.form.controls['lastName'];
     this.birthDay = this.form.controls['birthDay'];
     this.classRoom = this.form.controls['classRoom'];
     this.address = this.form.controls['address'];
@@ -78,6 +85,9 @@ export class StudentFormComponent implements OnInit {
           this.getParents();
         }
       );
+    }
+    else{
+      this.addParent();
     }
   }
 
@@ -136,9 +146,6 @@ export class StudentFormComponent implements OnInit {
   removeParent(parent: Parent){
     this.verifyParentDelete(parent);
 
-    if(this.student.parents.indexOf(parent._links.self.href) > -1)
-      this.student.parents.splice(this.student.parents.indexOf(parent._links.self.href));
-
     let index = this.parents.indexOf(parent);
     if (index > -1) {
         this.parents.splice(index, 1);
@@ -175,16 +182,15 @@ export class StudentFormComponent implements OnInit {
 
   addParent(){
     this.parents.push(new Parent());
+    window.scrollTo(0,document.body.scrollHeight);
     return false;
   }
 
   updateParents(){
-    console.log(this.parents);
+    this.student.parents = [];
     this.parents.forEach(parent => {
-      if(this.student.parents.indexOf(parent._links.self.href) < 0)
-        this.student.parents.push(parent._links.self.href);
+      this.student.parents.push(parent._links.self.href);
     });
-    console.log(this.student.parents);
   }
 
   goBack(){

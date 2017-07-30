@@ -4,11 +4,11 @@
       <div>
         <ba-card>
           <div class="row">
-            <div class="col-md-6"> 
-              <div class="form-horizontal">  
-                <div class="input-group">         
+            <div class="col-md-6">
+              <div class="form-horizontal">
+                <div class="input-group">
                   <input type="search" class="form-control" id="input01" placeholder="{{'form.search' | translate}}">
-                  
+
                   <div class="btn-group hidden-md-up">
                     <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                       Order by
@@ -29,9 +29,9 @@
                   <select class="form-control" id="country">
                     <option value="Name">Name</option>
                     <option value="Class">Class</option>
-                  </select>                
-                  <button type="button" class="btn btn-success btn-xm btn-add" translate>form.new</button>
-                </div>                
+                  </select>
+                  <button type="button" routerLink="./new" class="btn btn-success btn-xm btn-add" translate>form.new</button>
+                </div>
               </div>
             </div>
           </div>
@@ -42,32 +42,8 @@
 <!-- [FIM] Search -->
 
 <div class="row">
-    <div class="col-12 col-md-6 col-lg-4">
-      <staff-card></staff-card>
-    </div>
-    <div class="col-12 col-md-6 col-lg-4">
-      <staff-card></staff-card>
-    </div>
-    <div class="col-12 col-md-6 col-lg-4">
-      <staff-card></staff-card>
-    </div>
-    <div class="col-12 col-md-6 col-lg-4">
-      <staff-card></staff-card>
-    </div>
-    <div class="col-12 col-md-6 col-lg-4">
-      <staff-card></staff-card>
-    </div>
-    <div class="col-12 col-md-6 col-lg-4">
-      <staff-card></staff-card>
-    </div>
-    <div class="col-12 col-md-6 col-lg-4">
-      <staff-card></staff-card>
-    </div>
-    <div class="col-12 col-md-6 col-lg-4">
-      <staff-card></staff-card>
-    </div>
-    <div class="col-12 col-md-6 col-lg-4">
-      <staff-card></staff-card>
+    <div *ngFor='let staff of team' class="col-12 col-md-6 col-lg-4">
+      <staff-card [staff]="staff" (staffDeleteEvent)="removeStaff($event)"></staff-card>
     </div>
 </div>
 <ba-back-top></ba-back-top>

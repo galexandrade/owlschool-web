@@ -30,4 +30,15 @@ export class ParentService{
     let url: string = this.resourcePath + '/' + key;
     return this.http.delete(url);
   }
+
+  search(terms: Observable<string>){
+    return terms.debounceTime(400)
+      .distinctUntilChanged()
+      .switchMap(term => this.searchEntries(term));
+  }
+
+  searchEntries(term) {
+    return this.get('search/findByName', {'name': term})
+        .map(res => res._embedded.parents);
+  }
 }

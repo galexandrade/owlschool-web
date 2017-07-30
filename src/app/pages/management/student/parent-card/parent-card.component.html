@@ -2,57 +2,56 @@
   <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)">
   <div class="row parent_card">
     <div class="col-8">
-      <div class="form-group">
-        <label for="inputFirstName" translate>person.name</label>
-        <input [formControl]="firstName" [(ngModel)]="parent.person.firstName" type="text" class="form-control" id="inputName" placeholder="{{'person.name' | translate}}">
-        <ul class="search-parents">
-          <li>
-            <a href="#">
-              Alex P. Andrade
-              <img src="{{ ( (!id || !parent.person.picture ? 'default' : parent.person.picture) | baProfilePicture ) }}" class="image-responsive">
-            </a>
-          </li>
-          <li>
-            <a href="#">
-              Alex P. Andrade
-              <img src="{{ ( (!id || !parent.person.picture ? 'default' : parent.person.picture) | baProfilePicture ) }}" class="image-responsible">
-            </a>
-          </li>
-          <li>
-            <a href="#">
-              Alex P. Andrade
-              <img src="{{ ( (!id || !parent.person.picture ? 'default' : parent.person.picture) | baProfilePicture ) }}" class="image-responsible">
+      <div class="form-group row">
+        <div class="col-md-6" *ngIf="editMode">
+          <label for="inputFirstName" translate>person.firstName</label>
+          <input [formControl]="firstName" [(ngModel)]="parent.person.firstName" (keyup)="search($event.target.value)" type="text" class="form-control" id="inputFirstName" placeholder="{{'person.firstName' | translate}}">
+        </div>
+        <div class="col-md-6" *ngIf="editMode">
+          <label for="inputLastName" translate>person.lastName</label>
+          <input [formControl]="lastName" [(ngModel)]="parent.person.lastName" (keyup)="search($event.target.value)" type="text" class="form-control" id="inputLastName" placeholder="{{'person.lastName' | translate}}">
+        </div>
+        <div class="col-sm-12" *ngIf="!editMode">
+          <label for="name" translate>person.name</label>
+          <input type="text" [value]="parent && parent.person && parent.person.firstName + ' ' + parent.person.lastName" [attr.readonly]="!isEditing ? true : null" class="form-control" id="name" placeholder="{{'person.firstName' | translate}}">
+        </div>
+        <ul class="search-list" *ngIf='searchParents && searchParents.length > 0'>
+          <li *ngFor="let parentSearch of searchParents">
+            <a href="#" (click)="$event.preventDefault(); selectParentSearch(parentSearch)">
+              {{parentSearch.person.firstName + " " + parentSearch.person.lastName}}
+              <img src="{{ ( (!parentSearch.person.picture ? 'default' : parentSearch.person.picture) | baProfilePicture ) }}">
             </a>
           </li>
         </ul>
       </div>
       <div class="form-group">
         <label for="relationship" translate>person.relationship</label>
-        <select [formControl]="relationship" [(ngModel)]="parent.relationship" class="form-control" id="relationship">
+        <select [formControl]="relationship" *ngIf="editMode" [(ngModel)]="parent.relationship" class="form-control" id="relationship">
           <option value="MOTHER" translate>person.mother</option>
           <option value="FATHER" translate>person.father</option>
           <option translate>person.brother</option>
           <option translate>person.sister</option>
         </select>
+        <input type="text" *ngIf="!editMode" [value]="parent.relationship" [attr.readonly]="!editMode ? true : null" class="form-control">
       </div>
       <div class="form-group">
         <label for="phone" translate>contact.phone</label>
-        <input [formControl]="phone" [(ngModel)]="parent.person.contact.phone" type="text" class="form-control" id="phone" placeholder="{{'contact.phone' | translate}}">
+        <input [formControl]="phone" [(ngModel)]="parent.person.contact.phone" [attr.readonly]="!editMode ? true : null" type="text" class="form-control" id="phone" placeholder="{{'contact.phone' | translate}}">
       </div>
       <div class="form-group">
         <label for="job" translate>person.job</label>
-        <input [formControl]="job" [(ngModel)]="parent.person.job" type="text" class="form-control" id="job" placeholder="{{'person.job' | translate}}">
+        <input [formControl]="job" [(ngModel)]="parent.person.job" [attr.readonly]="!editMode ? true : null" type="text" class="form-control" id="job" placeholder="{{'person.job' | translate}}">
       </div>
       <div class="form-group">
         <label for="email" translate>contact.email</label>
-        <input [formControl]="email" [(ngModel)]="parent.person.contact.email" type="text" class="form-control" id="email" placeholder="{{'contact.email' | translate}}">
+        <input [formControl]="email" [(ngModel)]="parent.person.contact.email" [attr.readonly]="!editMode ? true : null" type="text" class="form-control" id="email" placeholder="{{'contact.email' | translate}}">
       </div>
     </div>
     <div class="col-4">
-      <img src="{{ ( (!id || !parent.person.picture ? 'default' : parent.person.picture) | baProfilePicture ) }}">
-      <button type="button" class="btn btn-info btn-block btn-sm">{{'form.changePicture' | translate}}</button>
-      <button type="submit" class="btn btn-success btn-block btn-sm" translate>form.save</button>
-      <button type="button" class="btn btn-danger btn-block btn-sm" (click)='remove()' translate>form.remove</button>
+      <img src="{{ ( (!id || !parent.person.picture ? 'default' : parent.person.picture) | baProfilePicture ) }}" class="profile-picture">
+      <button type="button" *ngIf="editMode" class="btn btn-info btn-block btn-sm">{{'form.changePicture' | translate}}</button>
+      <button type="submit" *ngIf="editMode" class="btn btn-success btn-block btn-sm" translate>form.save</button>
+      <button type="button" *ngIf="editMode" class="btn btn-danger btn-block btn-sm" (click)='remove()' translate>form.remove</button>
     </div>
   </div>
   </form>

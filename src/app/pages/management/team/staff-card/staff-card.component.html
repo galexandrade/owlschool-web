@@ -1,7 +1,7 @@
-  <ba-card baCardClass="with-scroll">
+  <ba-card baCardClass="with-scroll" routerLink="./{{staff.id}}">
     <div class="row staff_card">
       <div class="col-8">
-        <h5>Juliane da Rocha Andrade</h5>
+        <h5>{{staff.person.firstName + " " + staff.person.lastName}}</h5>
         <table>
           <tbody>
             <tr>
@@ -10,7 +10,7 @@
             </tr>
             <tr>
               <td class="text-right">Birth Day:</td>
-              <td>22/03/2010</td>
+              <td>{{staff.person.birthDay}}</td>
             </tr>
             <tr>
               <td class="text-right">Main Class:</td>
@@ -20,8 +20,7 @@
         </table>
       </div>
       <div class="col-4">
-        <img src="{{ ( 'Vlad' | baProfilePicture ) }}">
-        <button routerLink="/pages/management/staff" type="button" class="btn btn-success btn-block btn-sm">View Profile</button>
+        <img src="{{ ( (!staff.person.picture ? 'default' : staff.person.picture) | baProfilePicture ) }}">
       </div>
     </div>
   </ba-card>
