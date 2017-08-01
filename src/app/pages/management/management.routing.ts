@@ -7,8 +7,8 @@ import { StudentListComponent } from './student/student-list/student-list.compon
 import { StudentFormComponent } from './student/student-form/student-form.component';
 import { TeamListComponent } from './team/team-list/team-list.component';
 import { TeamFormComponent } from './team/team-form/team-form.component';
-import { ClassesComponent } from './classes/classes.component';
-import { ClassComponent } from './class/class.component';
+import { ClassListComponent } from './class/class-list/class-list.component';
+import { ClassFormComponent } from './class/class-form/class-form.component';
 
 const routes: Routes = [
   {
@@ -23,8 +23,11 @@ const routes: Routes = [
       { path: 'team', component: TeamListComponent },
       { path: 'team/new', component: TeamFormComponent },
       { path: 'team/:id', component: TeamFormComponent },
-      { path: 'classes', component: ClassesComponent },
-      { path: 'class', component: ClassComponent },
+      { path: 'team/:id/edit', component: TeamFormComponent },
+      { path: 'classes', component: ClassListComponent },
+      { path: 'classes/new', component: ClassFormComponent },
+      { path: 'classes/:id', component: ClassFormComponent },
+      { path: 'classes/:id/edit', component: ClassFormComponent }
     ]
   }
 ];

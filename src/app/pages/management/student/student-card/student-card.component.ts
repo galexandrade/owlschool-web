@@ -9,26 +9,11 @@ import { Student } from '../../../../model/student';
   styleUrls: ['./student-card.component.scss']
 })
 export class StudentCardComponent implements OnInit {
-  @Output() studentDeleteEvent = new EventEmitter();
   @Input() student: Student;
 
-  constructor(private studentService: StudentService,
-              private toaster: ToasterService) { }
+  constructor() { }
 
   ngOnInit() {
     console.info('STUDENT_CARD', this.student);
   }
-
-  remove(){
-    this.studentService.delete(this.student.id).subscribe(
-      res => {
-          this.studentDeleteEvent.next(this.student);
-          this.toaster.pop({
-                  type: 'success',
-                  body: 'Deleted with success!'
-              })
-      }
-    );
-  }
-
 }

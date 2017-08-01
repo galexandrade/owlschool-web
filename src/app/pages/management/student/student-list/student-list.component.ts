@@ -34,11 +34,4 @@ export class StudentListComponent implements OnInit {
       }
     );
   }
-
-  removeStudent(student: Student){
-    let index = this.students.indexOf(student);
-    if (index > -1) {
-        this.students.splice(index, 1);
-    }
-  }
 }

@@ -1,10 +1,12 @@
 <div class="row">
     <div class="col-md-12">
-      <form (ngSubmit)="onSubmit(form.value)">
+      <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)">
         <ba-card baCardClass="with-scroll">
           <div class="pull-right action-menu">
-            <button type="submit" class="btn btn-success" translate>form.save</button>
-            <button class="btn btn-danger" translate>form.cancel</button>
+            <button type="button" class="btn btn-success" routerLink="../" *ngIf="!isEditing" translate><i class="ion-chevron-left"></i> form.return</button>
+            <button type="button" class="btn btn-info" routerLink="./edit" *ngIf="!isEditing" translate>form.edit</button>
+            <button type="submit" class="btn btn-success" *ngIf="isEditing" translate>form.save</button>
+            <button type="button" class="btn btn-danger" (click)="goBack()" *ngIf="isEditing" translate>form.cancel</button>
           </div>
           <ba-tabs>
             <ba-tab tabTitle="{{'tabs.general' | translate}}">
@@ -12,24 +14,31 @@
                 <div class="col-md-6 offset-md-3">
                   <div class="form-group">
                     <label for="name" translate>person.name</label>
-                    <input type="text" class="form-control" id="name" placeholder="{{'person.name' | translate}}">
+                    <input type="text" [formControl]="name" [(ngModel)]="classRoom && classRoom.name" [attr.readonly]="!isEditing ? true : null" class="form-control" id="name" placeholder="{{'person.name' | translate}}">
                   </div>
                   <div class="form-group">
                     <label for="period" translate>class.period</label>
-                    <select class="form-control" id="period">
-                      <option value="" translate>class.morning</option>
-                      <option value="" translate>class.afternoon</option>
-                      <option value="" translate>class.integral</option>
+                    <select class="form-control" [formControl]="period" [(ngModel)]="classRoom && classRoom.period" *ngIf="isEditing" id="period">
+                      <option value="Morning" translate>class.morning</option>
+                      <option value="Afternoon" translate>class.afternoon</option>
+                      <option value="Integral" translate>class.integral</option>
                     </select>
+                    <input type="text" *ngIf="!isEditing" [value]="classRoom && classRoom.period" [attr.readonly]="!isEditing ? true : null" class="form-control">
                   </div>
-                  <div class="form-group">
-                    <label for="main_teacher" translate>class.main_teacher</label>
-                    <select class="form-control" id="main_teacher">
-                      <option value="" translate>Aline Stark</option>
-                      <option value="" translate>Aline Stark</option>
-                      <option value="" translate>Aline Stark</option>
-                      <option value="" translate>Aline Stark</option>
-                    </select>
+                  <div class="form-group row">
+                    <div class="col-sm-12">
+                      <label for="main_teacher" translate>class.main_teacher</label>
+                      <input type="text" #mainTeacherField [value]="mainTeacher && mainTeacher.person.firstName + ' ' + mainTeacher.person.lastName" (keyup)="searchTeacher($event.target.value)" [attr.readonly]="!isEditing ? true : null" class="form-control" id="main_teacher">
+                      <img src="{{ ( (mainTeacher && !mainTeacher.person.picture ? 'default' : mainTeacher.person.picture) | baProfilePicture ) }}" class="main-teacher-picture">
+                    </div>
+                    <ul class="search-list" *ngIf="!id && searchTeachers && searchTeachers.length > 0">
+                      <li *ngFor="let teacherSearch of searchTeachers">
+                        <a href="#" (click)="$event.preventDefault(); selectTeacherSearch(teacherSearch)">
+                          {{teacherSearch.person.firstName + " " + teacherSearch.person.lastName}}
+                          <img src="{{ ( (!teacherSearch.person.picture ? 'default' : teacherSearch.person.picture) | baProfilePicture ) }}">
+                        </a>
+                      </li>
+                    </ul>
                   </div>
                 </div>
               </div>
@@ -37,58 +46,37 @@
 
             <ba-tab tabTitle="{{'tabs.teachers' | translate}}">
               <div class="row">
-                <div class="col-md-8 offset-md-2">
+                <div class="col-md-8 offset-md-2" *ngIf="isEditing">
                   <div class="form-horizontal">
                     <div class="input-group">
-                      <select class="form-control">
-                        <option translate>matter.math</option>
-                        <option translate>matter.history</option>
-                        <option translate>matter.geography</option>
-                        <option translate>matter.portuguese</option>
-                        <option translate>matter.english</option>
+                      <select class="form-control" [formControl]="selectedMatterForm" [(ngModel)]="selectedMatter" (change)="searchTeacherByMatter()">
+                        <option *ngFor="let matter of allMatters" [ngValue]="matter">{{matter.matterName}}</option>
                       </select>
                       <select class="form-control">
-                        <option translate>Sandra Rodrigues</option>
-                        <option translate>Maria Lucia</option>
+                        <option *ngFor="let teacher of allTeachers" [ngValue]="matter">{{teacher.person.firstName + ' ' + teacher.person.lastName}}</option>
                       </select>
-                      <button type="button" class="btn btn-success btn-xm" translate>form.add</button>
+                      <button type="button" (click)="addMatterTeacher()" class="btn btn-success btn-xm" translate>form.add</button>
                     </div>
                   </div>
                 </div>
                 <div class="col-md-8 offset-md-2">
-                  <table class="table table-striped">
+                  <table class="table table-striped teachers-matters">
                     <thead>
                     <tr>
                       <th class="table-id">#</th>
                       <th>Matter</th>
                       <th>Teacher</th>
-                      <th class="text-right">Action</th>
+                      <th class="text-right" *ngIf="isEditing">Action</th>
                     </tr>
                     </thead>
                     <tbody>
-                      <tr>
+                      <tr *ngFor="let matterTeacher of mattersTeacher">
                         <td class="table-id">1</td>
-                        <td>Math</td>
-                        <td>Sandra Rodrigues</td>
-                        <td class="text-right"><button type="button" class="btn btn-danger">Remove</button></td>
-                      </tr>
-                      <tr>
-                        <td class="table-id">1</td>
-                        <td>Geography</td>
-                        <td>Sandra Rodrigues</td>
-                        <td class="text-right"><button type="button" class="btn btn-danger">Remove</button></td>
-                      </tr>
-                      <tr>
-                        <td class="table-id">1</td>
-                        <td>History</td>
-                        <td>Sandra Rodrigues</td>
-                        <td class="text-right"><button type="button" class="btn btn-danger">Remove</button></td>
-                      </tr>
-                      <tr>
-                        <td class="table-id">1</td>
-                        <td>English</td>
-                        <td>Josiele Stark</td>
-                        <td class="text-right"><button type="button" class="btn btn-danger">Remove</button></td>
+                        <td>{{matterTeacher.matter.matterName}}</td>
+                        <td>{{matterTeacher.teacher.person.firstName + " " + matterTeacher.teacher.person.lastName}}</td>
+                        <td class="text-right" *ngIf="isEditing">
+                          <button type="button" class="btn btn-danger" (click)="removeMatterTeacher(matterTeacher)">Remove</button>
+                        </td>
                       </tr>
                     </tbody>
                   </table>
@@ -98,10 +86,10 @@
 
             <ba-tab tabTitle="{{'tabs.schedule' | translate}}">
               <div class="row schedule">
-                <div class="col-12">
+                <div class="col-12" *ngIf="isEditing">
                   <ba-card title="Matters" baCardClass="with-scroll">
                     <div class="row">
-                      <div *ngFor="let matter of matters" class="col-md-2 matter" dnd-draggable [dragData]="matter">{{matter.name}}</div>
+                      <div *ngFor="let matter of matters" class="col-md-2 matter" dnd-draggable [dragData]="matter">{{matter.matterName}}</div>
                     </div>
                   </ba-card>
                 </div>
@@ -110,7 +98,7 @@
                   <ba-card title="Monday" baCardClass="with-scroll" dnd-droppable (onDropSuccess)="addToScheduleMon($event)">
                     <div class="drag_default" *ngIf="scheduleMon.length == 0">Drag here!</div>
                     <div *ngFor="let matter of scheduleMon" class="matter">
-                      {{matter.name}}
+                      {{matter.matterName}}
                       <a (click)="removeScheduleMon(matter)"><i class="ion-close-round"></i></a>
                     </div>
                   </ba-card>
@@ -120,7 +108,7 @@
                   <ba-card title="Tuesday" baCardClass="with-scroll" dnd-droppable (onDropSuccess)="addToScheduleTue($event)">
                     <div class="drag_default" *ngIf="scheduleTue.length == 0">Drag here!</div>
                     <div *ngFor="let matter of scheduleTue" class="matter">
-                      {{matter.name}}
+                      {{matter.matterName}}
                       <a (click)="removeScheduleTue(matter)"><i class="ion-close-round"></i></a>
                     </div>
                   </ba-card>
@@ -130,7 +118,7 @@
                   <ba-card title="Wednesday" baCardClass="with-scroll" dnd-droppable (onDropSuccess)="addToScheduleWed($event)">
                     <div class="drag_default" *ngIf="scheduleWed.length == 0">Drag here!</div>
                     <div *ngFor="let matter of scheduleWed" class="matter">
-                      {{matter.name}}
+                      {{matter.matterName}}
                       <a (click)="removeScheduleWed(matter)"><i class="ion-close-round"></i></a>
                     </div>
                   </ba-card>
@@ -140,7 +128,7 @@
                   <ba-card title="Thursday" baCardClass="with-scroll" dnd-droppable (onDropSuccess)="addToScheduleThu($event)">
                     <div class="drag_default" *ngIf="scheduleThu.length == 0">Drag here!</div>
                     <div *ngFor="let matter of scheduleThu" class="matter">
-                      {{matter.name}}
+                      {{matter.matterName}}
                       <a (click)="removeScheduleTue(matter)"><i class="ion-close-round"></i></a>
                     </div>
                   </ba-card>
@@ -150,7 +138,7 @@
                   <ba-card title="Friday" baCardClass="with-scroll" dnd-droppable (onDropSuccess)="addToScheduleFri($event)">
                     <div class="drag_default" *ngIf="scheduleFri.length == 0">Drag here!</div>
                     <div *ngFor="let matter of scheduleFri" class="matter">
-                      {{matter.name}}
+                      {{matter.matterName}}
                       <a (click)="removeScheduleFri(matter)"><i class="ion-close-round"></i></a>
                     </div>
                   </ba-card>
@@ -160,7 +148,7 @@
                   <ba-card title="Saturday" baCardClass="with-scroll" dnd-droppable (onDropSuccess)="addToScheduleSat($event)">
                     <div class="drag_default" *ngIf="scheduleSat.length == 0">Drag here!</div>
                     <div *ngFor="let matter of scheduleSat" class="matter">
-                      {{matter.name}}
+                      {{matter.matterName}}
                       <a (click)="removeScheduleSat(matter)"><i class="ion-close-round"></i></a>
                     </div>
                   </ba-card>
@@ -170,7 +158,7 @@
                   <ba-card title="Sunday" baCardClass="with-scroll" dnd-droppable (onDropSuccess)="addToScheduleSun($event)">
                     <div class="drag_default" *ngIf="scheduleSun.length == 0">Drag here!</div>
                     <div *ngFor="let matter of scheduleSun" class="matter">
-                      {{matter.name}}
+                      {{matter.matterName}}
                       <a (click)="removeScheduleSun(matter)"><i class="ion-close-round"></i></a>
                     </div>
                   </ba-card>
@@ -180,7 +168,7 @@
 
             <ba-tab tabTitle="{{'tabs.students' | translate}}">
               <div class="row">
-                <div class="col-12">
+                <div class="col-12" *ngIf="isEditing">
                   <ba-card>
                     <div class="form-horizontal">
                       <div class="input-group">
@@ -191,10 +179,10 @@
                   </ba-card>
                 </div>
                 <div class="col-12 col-md-6">
-                  <student-card></student-card>
+                  <!--<student-card></student-card>-->
                 </div>
                 <div class="col-12 col-md-6">
-                  <student-card></student-card>
+                  <!--<student-card></student-card>-->
                 </div>
               </div>
             </ba-tab>

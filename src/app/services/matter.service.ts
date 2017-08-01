@@ -31,6 +31,11 @@ export class MatterService{
     return this.http.get(url, params);
   }
 
+  getTeachedMatters() {
+    return this.get('search/getTeachedMatters')
+        .map(res => res._embedded.matters);
+  }
+
   delete(key: string): Observable<any> {
     let url: string = this.resourcePath + '/' + key;
     return this.http.delete(url);

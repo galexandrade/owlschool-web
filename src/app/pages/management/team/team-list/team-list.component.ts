@@ -18,17 +18,14 @@ export class TeamListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log("INIT");
     this._state.updatePageName("general.menu.team");
     this.team = new Array<Staff>();
     this.loadStaff();
   }
 
   loadStaff(){
-    console.log("AKI");
     this.staffService.get().subscribe(
       (res: any) => {
-        console.log(res);
         for(let i: number = 0; i < res._embedded.staffs.length; i++) {
           let staff = res._embedded.staffs[i];
           staff.id = staff._links.self.href.split('/')[staff._links.self.href.split('/').length - 1];
@@ -37,12 +34,4 @@ export class TeamListComponent implements OnInit {
       }
     );
   }
-
-  removeStaff(staff: Staff){
-    let index = this.team.indexOf(staff);
-    if (index > -1) {
-        this.team.splice(index, 1);
-    }
-  }
-
 }

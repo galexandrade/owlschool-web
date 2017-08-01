@@ -3,6 +3,7 @@
       <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)">
         <ba-card baCardClass="with-scroll">
           <div class="pull-right action-menu">
+            <button type="button" class="btn btn-success" routerLink="../" *ngIf="!isEditing" translate><i class="ion-chevron-left"></i> form.return</button>
             <button type="button" class="btn btn-info" routerLink="./edit" *ngIf="!isEditing" translate>form.edit</button>
             <button *ngIf="isEditing && activeTab === ('tabs.parents' | translate)" (click)='addParent()' type="button" class="btn btn-info" translate>form.addParent</button>
             <button type="submit" class="btn btn-success" *ngIf="isEditing" translate>form.save</button>

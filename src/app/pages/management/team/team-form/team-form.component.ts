@@ -15,6 +15,8 @@ import { FormGroup, AbstractControl, FormBuilder, Validators } from "@angular/fo
   styleUrls: ['./team-form.component.scss']
 })
 export class TeamFormComponent implements OnInit {
+  private isEditing: boolean = false;
+
   staffId: number;
   staff: Staff;
 
@@ -47,6 +49,9 @@ export class TeamFormComponent implements OnInit {
               private toaster: ToasterService,
               private route: ActivatedRoute,
               private router: Router) {
+
+    if(route.snapshot.url[route.snapshot.url.length - 1].path === 'edit' || route.snapshot.url[route.snapshot.url.length - 1].path === 'new')
+      this.isEditing = true;
 
     this.form = this.fb.group({
       'firstName': ['', Validators.compose([Validators.required, Validators.minLength(15)])],

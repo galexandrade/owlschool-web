@@ -9,25 +9,10 @@ import { ToasterService } from "angular2-toaster/angular2-toaster";
   styleUrls: ['./staff-card.component.scss']
 })
 export class StaffCardComponent implements OnInit {
-  @Output() staffDeleteEvent = new EventEmitter();
   @Input() staff: Staff;
 
-  constructor(private staffService: StaffService,
-              private toaster: ToasterService) { }
+  constructor() { }
 
   ngOnInit() {
   }
-
-  remove(){
-    this.staffService.delete(this.staff.id).subscribe(
-      res => {
-          this.staffDeleteEvent.emit(this.staff);
-          this.toaster.pop({
-                  type: 'success',
-                  body: 'Deleted with success!'
-              })
-      }
-    );
-  }
-
 }

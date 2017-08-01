@@ -13,9 +13,9 @@ import { Management } from './management.component';
 import { TeamListComponent } from './team/team-list/team-list.component';
 import { TeamFormComponent } from './team/team-form/team-form.component';
 import { StaffCardComponent } from './team/staff-card/staff-card.component';
-import { ClassesComponent } from './classes/classes.component';
-import { ClassComponent } from './class/class.component';
-import { ClassCardComponent } from './classes/class-card/class-card.component';
+import { ClassListComponent } from './class/class-list/class-list.component';
+import { ClassFormComponent } from './class/class-form/class-form.component';
+import { ClassCardComponent } from './class/class-card/class-card.component';
 
 import { StudentListComponent } from './student/student-list/student-list.component';
 import { StudentFormComponent } from './student/student-form/student-form.component';
@@ -41,8 +41,8 @@ import { ParentCardComponent } from './student/parent-card/parent-card.component
     TeamListComponent,
     TeamFormComponent,
     StaffCardComponent,
-    ClassesComponent,
-    ClassComponent,
+    ClassListComponent,
+    ClassFormComponent,
     ClassCardComponent,
     StudentListComponent,
     StudentFormComponent,

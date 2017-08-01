@@ -9,6 +9,7 @@ import { StudentService } from '../../../../services/student.service';
 import { ParentService } from "app/services/parent.service";
 import { Student } from '../../../../model/student';
 import { Parent } from "../../../../model/parent";
+import { Observable } from "rxjs/Observable";
 
 @Component({
   selector: 'app-student-form',
@@ -46,7 +47,7 @@ export class StudentFormComponent implements OnInit {
               private route: ActivatedRoute,
               private router: Router) {
 
-    if(route.snapshot.url[route.snapshot.url.length - 1].path === 'edit')
+    if(route.snapshot.url[route.snapshot.url.length - 1].path === 'edit' || route.snapshot.url[route.snapshot.url.length - 1].path === 'new')
       this.isEditing = true;
 
     this.form = this.fb.group({
@@ -96,32 +97,58 @@ export class StudentFormComponent implements OnInit {
   }
 
   onSubmit(values: Object): void{
-    this.updateParents();
-    if(this.studentId){
-      this.studentService.patch(this.studentId.toString(), this.student).subscribe(
-        (res: any) => {
-          this.deleteParentsRemoved();
-          this.toaster.pop({
-                          type: 'success',
-                          body: 'Updated with success!'
-                      });
-          //this.router.navigate(['../'], {relativeTo: this.route});
-          this.goBack();
-        }
-      );
-    }
-    else{
-      this.studentService.create(this.student).subscribe(
-        (res: any) => {
-          this.deleteParentsRemoved();
-          this.toaster.pop({
-                          type: 'success',
-                          body: 'Updated with success!'
-                      });
-          this.goBack();
-        }
-      );
-    }
+    this.saveParents().subscribe(parentsSaved => {
+      this.parents = parentsSaved;
+
+      this.updateParents();
+      if(this.studentId){
+        this.studentService.patch(this.studentId.toString(), this.student).subscribe(
+          (res: any) => {
+            this.deleteParentsRemoved();
+            this.toaster.pop({
+                            type: 'success',
+                            body: 'Updated with success!'
+                        });
+            //this.router.navigate(['../'], {relativeTo: this.route});
+            this.goBack();
+          }
+        );
+      }
+      else{
+        this.studentService.create(this.student).subscribe(
+          (res: any) => {
+            this.deleteParentsRemoved();
+            this.toaster.pop({
+                            type: 'success',
+                            body: 'Updated with success!'
+                        });
+            this.goBack();
+          }
+        );
+      }
+    });
+
+  }
+
+  saveParents(): Observable<any[]>{
+    let actions: any[] = [];
+    this.parents.forEach(parent => {
+      let id
+
+      if(parent._links){
+        let split = parent._links.self.href.split('/');
+        id = split[split.length - 1];
+      }
+
+      if(id){
+        actions.push(this.parentService.update(id, parent));
+      }
+      else{
+        actions.push(this.parentService.create(parent));
+      }
+    });
+
+    return Observable.forkJoin(actions);
   }
 
   getClassRoom(){

@@ -1,7 +1,7 @@
-  <ba-card baCardClass="with-scroll">
+  <ba-card baCardClass="with-scroll" routerLink="./{{classRoom.id}}">
     <div class="row class_card">
       <div class="col-8">
-        <h5>Pré 1B</h5>
+        <h5>{{classRoom.name}}</h5>
         <table>
           <tbody>
             <tr>
@@ -10,7 +10,7 @@
             </tr>
             <tr>
               <td class="text-right">Period:</td>
-              <td>Morning</td>
+              <td>{{classRoom.period}}</td>
             </tr>
             <tr>
               <td class="text-right">Students:</td>
@@ -20,9 +20,7 @@
         </table>
       </div>
       <div class="col-4">
-        <img src="{{ ( 'Vlad' | baProfilePicture ) }}">
-        <button routerLink="/pages/management/class" type="button" class="btn btn-success btn-block btn-sm">Edit</button>
-        <button routerLink="/pages/management/class-view" type="button" class="btn btn-info btn-block btn-sm">View</button>
+        <img src="{{ ( (!classRoom.picture ? 'default' : classRoom.picture) | baProfilePicture ) }}">
       </div>
     </div>
   </ba-card>

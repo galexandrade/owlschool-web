@@ -3,47 +3,54 @@
       <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)">
         <ba-card baCardClass="with-scroll">
           <div class="pull-right action-menu">
-            <button type="submit" class="btn btn-success" translate>form.save</button>
-            <button type="button" (click)="goBack()" class="btn btn-danger" translate>form.cancel</button>
+            <button type="button" class="btn btn-success" routerLink="../" *ngIf="!isEditing" translate><i class="ion-chevron-left"></i> form.return</button>
+            <button type="button" class="btn btn-info" routerLink="./edit" *ngIf="!isEditing" translate>form.edit</button>
+            <button type="submit" class="btn btn-success" *ngIf="isEditing" translate>form.save</button>
+            <button type="button" (click)="goBack()" class="btn btn-danger" *ngIf="isEditing" translate>form.cancel</button>
           </div>
           <ba-tabs>
             <ba-tab tabTitle="{{'tabs.general' | translate}}">
               <div class="row">
                 <div class="col-sm-4 col-md-3 offset-md-1 picture-box">
                   <img src="{{ ( (!staffId || !staff.person.picture ? 'default' : staff.person.picture) | baProfilePicture ) }}" class="img_round">
-                  <button class="btn btn-default btn_change_picture">
+                  <button class="btn btn-default btn_change_picture" *ngIf="isEditing">
                     {{'form.changePicture' | translate}}
                     <i class="ion-camera"></i>
                   </button>
                 </div>
                 <div class="col-sm-6">
                     <div class="form-group row">
-                      <div class="col-sm-6">
+                      <div class="col-sm-6" *ngIf="isEditing">
                         <label for="name" translate>person.firstName</label>
                         <input type="text" [formControl]="firstName" [(ngModel)]="staff && staff.person.firstName" class="form-control" id="name" placeholder="{{'person.firstName' | translate}}">
                       </div>
-                      <div class="col-sm-6">
+                      <div class="col-sm-6" *ngIf="isEditing">
                         <label for="lastName" translate>person.lastName</label>
                         <input type="text" [formControl]="lastName" [(ngModel)]="staff && staff.person.lastName" class="form-control" id="lastName" placeholder="{{'person.lastName' | translate}}">
+                      </div>
+                      <div class="col-sm-12" *ngIf="!isEditing">
+                        <label for="name" translate>person.name</label>
+                        <input type="text" [value]="staff && staff.person && staff.person.firstName + ' ' + staff.person.lastName" [attr.readonly]="!isEditing ? true : null" class="form-control" id="name" placeholder="{{'person.firstName' | translate}}">
                       </div>
                     </div>
                     <div class="form-group row">
                       <div class="col-sm-6">
                         <label for="birthday" translate>person.birthday</label>
-                        <input type="text"  [formControl]="birthDay" [(ngModel)]="staff && staff.person.birthDay" class="form-control" id="birthday" placeholder="{{'person.birthday' | translate}}">
+                        <input type="text"  [formControl]="birthDay" [(ngModel)]="staff && staff.person.birthDay" [attr.readonly]="!isEditing ? true : null" class="form-control" id="birthday" placeholder="{{'person.birthday' | translate}}">
                       </div>
                     </div>
                     <div class="form-group">
                       <label for="function" translate>professional.function</label>
-                      <select class="form-control" id="function" [formControl]="function" [(ngModel)]="staff && staff.function">
+                      <select class="form-control" id="function" *ngIf="isEditing" [formControl]="function" [(ngModel)]="staff && staff.function">
                         <option value="teacher" translate>professional.teacher</option>
                         <option value="recepcionist" translate>professional.recepcionist</option>
                         <option value="monitor" translate>professional.monitor</option>
                       </select>
+                      <input type="text" *ngIf="!isEditing" [value]="staff && staff.function" [attr.readonly]="!isEditing ? true : null" class="form-control">
                     </div>
                     <div class="form-group">
                       <label for="email" translate>login.email</label>
-                      <input type="email" [formControl]="email" [(ngModel)]="staff && staff.user.email" class="form-control" id="email" placeholder="{{'login.email' | translate}}">
+                      <input type="email" [formControl]="email" [(ngModel)]="staff && staff.user.email" [attr.readonly]="!isEditing ? true : null" class="form-control" id="email" placeholder="{{'login.email' | translate}}">
                     </div>
                 </div>
               </div>
@@ -51,7 +58,7 @@
 
             <ba-tab tabTitle="{{'tabs.matters' | translate}}" *ngIf="staff && staff.function === 'teacher'">
               <div class="row">
-                <div class="col-md-6 offset-md-3">
+                <div class="col-md-6 offset-md-3" *ngIf="isEditing">
                   <div class="form-horizontal">
                     <div class="input-group">
                       <select class="form-control" [formControl]="selectedMatterForm" [(ngModel)]="selectedMatter">
@@ -67,14 +74,14 @@
                     <tr>
                       <th class="table-id">#</th>
                       <th>Matter</th>
-                      <th class="text-right">Action</th>
+                      <th class="text-right" *ngIf="isEditing">Action</th>
                     </tr>
                     </thead>
                     <tbody>
                       <tr *ngFor="let teachedMatter of teachedMatters; let idx = index">
                         <td class="table-id">{{idx + 1}}</td>
                         <td>{{teachedMatter.matterName}}</td>
-                        <td class="text-right">
+                        <td class="text-right" *ngIf="isEditing">
                           <button type="button" class="btn btn-danger" (click)="removeMatterTeached(teachedMatter)" translate>form.remove</button>
                         </td>
                       </tr>
@@ -93,19 +100,19 @@
                   <h5>General</h5>
                   <div class="checkbox">
                     <label>
-                      <input type="checkbox" id="canCreateEvent" [formControl]="canCreateEvent" [(ngModel)]="staff && staff.permission.canCreateEvent">
+                      <input type="checkbox" id="canCreateEvent" [formControl]="canCreateEvent" [(ngModel)]="staff && staff.permission.canCreateEvent" [attr.disabled]="!isEditing ? true : null">
                       {{'security.can_create_event' | translate}}
                     </label>
                   </div>
                   <div class="checkbox">
                     <label>
-                      <input type="checkbox" id="can_create_news" [formControl]="canCreateNews" [(ngModel)]="staff && staff.permission.canCreateNews">
+                      <input type="checkbox" id="can_create_news" [formControl]="canCreateNews" [(ngModel)]="staff && staff.permission.canCreateNews" [attr.disabled]="!isEditing ? true : null">
                       {{'security.can_create_news' | translate}}
                     </label>
                   </div>
                   <div class="checkbox">
                     <label>
-                      <input type="checkbox" id="can_chat" [formControl]="canChat" [(ngModel)]="staff && staff.permission.canChat">
+                      <input type="checkbox" id="can_chat" [formControl]="canChat" [(ngModel)]="staff && staff.permission.canChat" [attr.disabled]="!isEditing ? true : null">
                       {{'security.can_chat' | translate}}
                     </label>
                   </div>
@@ -115,31 +122,31 @@
                   <h5>Management</h5>
                   <div class="checkbox">
                     <label>
-                      <input type="checkbox" id="can_update_school" [formControl]="canUpdateSchool" [(ngModel)]="staff && staff.permission.canUpdateSchool">
+                      <input type="checkbox" id="can_update_school" [formControl]="canUpdateSchool" [(ngModel)]="staff && staff.permission.canUpdateSchool" [attr.disabled]="!isEditing ? true : null">
                       {{'security.can_update_school' | translate}}
                     </label>
                   </div>
                   <div class="checkbox">
                     <label>
-                      <input type="checkbox" id="can_update_student" [formControl]="canUpdateStudent" [(ngModel)]="staff && staff.permission.canUpdateStudent">
+                      <input type="checkbox" id="can_update_student" [formControl]="canUpdateStudent" [(ngModel)]="staff && staff.permission.canUpdateStudent" [attr.disabled]="!isEditing ? true : null">
                       {{'security.can_update_student' | translate}}
                     </label>
                   </div>
                   <div class="checkbox">
                     <label>
-                      <input type="checkbox" id="can_create_student" [formControl]="canCreateStudent" [(ngModel)]="staff && staff.permission.canCreateStudent">
+                      <input type="checkbox" id="can_create_student" [formControl]="canCreateStudent" [(ngModel)]="staff && staff.permission.canCreateStudent" [attr.disabled]="!isEditing ? true : null">
                       {{'security.can_create_student' | translate}}
                     </label>
                   </div>
                   <div class="checkbox">
                     <label>
-                      <input type="checkbox" id="can_update_class" [formControl]="canUpdateClass" [(ngModel)]="staff && staff.permission.canUpdateClass">
+                      <input type="checkbox" id="can_update_class" [formControl]="canUpdateClass" [(ngModel)]="staff && staff.permission.canUpdateClass" [attr.disabled]="!isEditing ? true : null">
                       {{'security.can_update_class' | translate}}
                     </label>
                   </div>
                   <div class="checkbox">
                     <label>
-                      <input type="checkbox" id="can_create_class" [formControl]="canCreateClass" [(ngModel)]="staff && staff.permission.canCreateClass">
+                      <input type="checkbox" id="can_create_class" [formControl]="canCreateClass" [(ngModel)]="staff && staff.permission.canCreateClass" [attr.disabled]="!isEditing ? true : null">
                       {{'security.can_create_class' | translate}}
                     </label>
                   </div>

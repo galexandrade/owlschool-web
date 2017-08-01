@@ -37,7 +37,7 @@ export class ParentCardComponent implements OnInit {
 
   constructor(private fb:FormBuilder,
               private parentService: ParentService,
-              private toaster: ToasterService,) {
+              private toaster: ToasterService) {
 
     this.form = this.fb.group({
       'firstName': ['', Validators.compose([Validators.required, Validators.minLength(15)])],
@@ -62,17 +62,9 @@ export class ParentCardComponent implements OnInit {
       this.id = split[split.length - 1];
     }
 
-    this.parentService.search(this.searchTerms)
-      .subscribe(parents => {
-        parents.forEach(eleParent => {
-          console.info(eleParent.person.firstName, this.parent.person.firstName);
-          console.info(eleParent.person.lastName, this.parent.person.lastName);
-          if(eleParent.person.firstName === this.parent.person.firstName &&
-             eleParent.person.lastName === this.parent.person.lastName)
-             parents.slice(parents.indexOf(eleParent));
-        });
-        this.searchParents = parents;
-      });
+    this.parentService.search(this.searchTerms).subscribe(parents => {
+      this.searchParents = parents;
+    });
   }
 
   // Push a search term into the observable stream.

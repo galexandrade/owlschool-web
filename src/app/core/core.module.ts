@@ -14,6 +14,7 @@ import { StudentService } from '../services/student.service';
 import { StaffService } from '../services/staff.service';
 import { ParentService } from '../services/parent.service';
 import { MatterService } from '../services/matter.service';
+import { ClassRoomService } from '../services/classRoom.service';
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp( new AuthConfig({}), http, options);
@@ -39,7 +40,8 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     StudentService,
     StaffService,
     ParentService,
-    MatterService
+    MatterService,
+    ClassRoomService
   ]
 })
 export class CoreModule {
