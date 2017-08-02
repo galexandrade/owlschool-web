@@ -107,7 +107,7 @@
                 <div *ngIf='parents.length === 0'>
                   <p class="text-danger">
                     No parent added yet! Add this student's parents!
-                    <a href='#' (click)='$event.preventDefault(); addParent()'>Click here</a>
+                    <a (click)='$event.preventDefault(); addParent()'>Click here</a>
                   </p>
                 </div>
               </div>

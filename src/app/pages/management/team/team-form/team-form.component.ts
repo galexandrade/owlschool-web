@@ -146,7 +146,7 @@ export class TeamFormComponent implements OnInit {
   }
 
   removeMatterTeached(teachedMatter){
-    this.teachedMatters.splice(this.teachedMatters.indexOf(teachedMatter));
+    this.teachedMatters.splice(this.teachedMatters.indexOf(teachedMatter), 1);
   }
 
   getMattersTeached(){

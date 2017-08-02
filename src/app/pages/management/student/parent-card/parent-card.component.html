@@ -17,7 +17,7 @@
         </div>
         <ul class="search-list" *ngIf="!id && searchParents && searchParents.length > 0">
           <li *ngFor="let parentSearch of searchParents">
-            <a href="#" (click)="$event.preventDefault(); selectParentSearch(parentSearch)">
+            <a (click)="$event.preventDefault(); selectParentSearch(parentSearch)">
               {{parentSearch.person.firstName + " " + parentSearch.person.lastName}}
               <img src="{{ ( (!parentSearch.person.picture ? 'default' : parentSearch.person.picture) | baProfilePicture ) }}">
             </a>

@@ -14,6 +14,7 @@ import { Subject } from "rxjs/Subject";
 import { StaffService } from "app/services/staff.service";
 import { MatterService } from "app/services/matter.service";
 import { Observable } from "rxjs/Observable";
+import * as _ from "lodash";
 
 @Component({
   selector: 'app-class',
@@ -250,7 +251,7 @@ export class ClassFormComponent implements OnInit {
   onSubmit(values: Object): void{
     this.classRoom.mainTeacher = this.mainTeacher._links.self.href;
     this.updateClassRoomTeacherMatters();
-    console.log(this.classRoom.classRoomTeacherMatters);
+    console.log(this.classRoom);
     if(this.classRoomId){
       this.classRoomService.patch(this.classRoomId.toString(), this.classRoom).subscribe(
         (res: any) => {
@@ -294,9 +295,8 @@ export class ClassFormComponent implements OnInit {
 
     let exist: boolean = false;
     this.mattersTeacher.forEach(ele => {
-      if(ele.matter.matterName === tm.matter.matterName &&
-         ele.teacher.person.firstName === tm.teacher.person.firstName &&
-         ele.teacher.person.lastName === tm.teacher.person.lastName)
+      if(ele.matter._links.self.href === tm.matter._links.self.href &&
+         ele.teacher._links.self.href === tm.teacher._links.self.href)
          exist = true;
     });
     if(!exist)
@@ -305,15 +305,15 @@ export class ClassFormComponent implements OnInit {
 
   removeMatterTeacher(matterTeacher){
     let idx: number = 0;
+    let idx_remove: number;
     this.mattersTeacher.forEach(ele => {
-      if(ele.matter.matterName === matterTeacher.matter.matterName &&
-         ele.teacher.person.firstName === matterTeacher.teacher.person.firstName &&
-         ele.teacher.person.lastName === matterTeacher.teacher.person.lastName){
-        this.mattersTeacher.splice(idx);
+      if(ele.matter._links.self.href === matterTeacher.matter._links.self.href &&
+         ele.teacher._links.self.href === matterTeacher.teacher._links.self.href){
+        idx_remove = idx;
       }
-
       idx++;
     });
+    this.mattersTeacher.splice(idx_remove, 1);
   }
 
   updateClassRoomTeacherMatters(){
@@ -321,15 +321,9 @@ export class ClassFormComponent implements OnInit {
 
     this.mattersTeacher.forEach(ele => {
       this.classRoom.classRoomTeacherMatters.push({
-          classRoom: {
-            href: this.classRoom._links.self.href
-          },
-          teacher: {
-            href: ele.teacher._links.self.href
-          },
-          matter: {
-            href: ele.matter._links.self.href
-          }
+          classRoom: this.classRoom._links.self.href,
+          teacher: ele.teacher._links.self.href,
+          matter: ele.matter._links.self.href
       });
     });
   }

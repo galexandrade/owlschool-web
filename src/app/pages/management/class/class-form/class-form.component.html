@@ -33,7 +33,7 @@
                     </div>
                     <ul class="search-list" *ngIf="!id && searchTeachers && searchTeachers.length > 0">
                       <li *ngFor="let teacherSearch of searchTeachers">
-                        <a href="#" (click)="$event.preventDefault(); selectTeacherSearch(teacherSearch)">
+                        <a (click)="$event.preventDefault(); selectTeacherSearch(teacherSearch)">
                           {{teacherSearch.person.firstName + " " + teacherSearch.person.lastName}}
                           <img src="{{ ( (!teacherSearch.person.picture ? 'default' : teacherSearch.person.picture) | baProfilePicture ) }}">
                         </a>
