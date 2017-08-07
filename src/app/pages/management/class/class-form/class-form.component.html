@@ -33,7 +33,7 @@
                     </div>
                     <ul class="search-list" *ngIf="!id && searchTeachers && searchTeachers.length > 0">
                       <li *ngFor="let teacherSearch of searchTeachers">
-                        <a (click)="$event.preventDefault(); selectTeacherSearch(teacherSearch)">
+                        <a (click)="selectTeacherSearch(teacherSearch)">
                           {{teacherSearch.person.firstName + " " + teacherSearch.person.lastName}}
                           <img src="{{ ( (!teacherSearch.person.picture ? 'default' : teacherSearch.person.picture) | baProfilePicture ) }}">
                         </a>
@@ -89,77 +89,77 @@
                 <div class="col-12" *ngIf="isEditing">
                   <ba-card title="Matters" baCardClass="with-scroll">
                     <div class="row">
-                      <div *ngFor="let matter of matters" class="col-md-2 matter" dnd-draggable [dragData]="matter">{{matter.matterName}}</div>
+                      <div *ngFor="let matterTeacher of mattersTeacher" class="col-md-2 matter" dnd-draggable [dragData]="matterTeacher.matter">{{matterTeacher.matter.matterName}}</div>
                     </div>
                   </ba-card>
                 </div>
 
                 <div class="col-md-3">
-                  <ba-card title="Monday" baCardClass="with-scroll" dnd-droppable (onDropSuccess)="addToScheduleMon($event)">
+                  <ba-card title="Monday" baCardClass="with-scroll" dnd-droppable (onDropSuccess)="addToSchedule($event, scheduleMon)">
                     <div class="drag_default" *ngIf="scheduleMon.length == 0">Drag here!</div>
                     <div *ngFor="let matter of scheduleMon" class="matter">
                       {{matter.matterName}}
-                      <a (click)="removeScheduleMon(matter)"><i class="ion-close-round"></i></a>
+                      <a (click)="scheduleMon = removeSchedule(matter, scheduleMon)" *ngIf="isEditing"><i class="ion-close-round"></i></a>
                     </div>
                   </ba-card>
                 </div>
 
                 <div class="col-md-3">
-                  <ba-card title="Tuesday" baCardClass="with-scroll" dnd-droppable (onDropSuccess)="addToScheduleTue($event)">
+                  <ba-card title="Tuesday" baCardClass="with-scroll" dnd-droppable (onDropSuccess)="addToSchedule($event, scheduleTue)">
                     <div class="drag_default" *ngIf="scheduleTue.length == 0">Drag here!</div>
                     <div *ngFor="let matter of scheduleTue" class="matter">
                       {{matter.matterName}}
-                      <a (click)="removeScheduleTue(matter)"><i class="ion-close-round"></i></a>
+                      <a (click)="scheduleTue = removeSchedule(matter, scheduleTue)" *ngIf="isEditing"><i class="ion-close-round"></i></a>
                     </div>
                   </ba-card>
                 </div>
 
                 <div class="col-md-3">
-                  <ba-card title="Wednesday" baCardClass="with-scroll" dnd-droppable (onDropSuccess)="addToScheduleWed($event)">
+                  <ba-card title="Wednesday" baCardClass="with-scroll" dnd-droppable (onDropSuccess)="addToSchedule($event, scheduleWed)">
                     <div class="drag_default" *ngIf="scheduleWed.length == 0">Drag here!</div>
                     <div *ngFor="let matter of scheduleWed" class="matter">
                       {{matter.matterName}}
-                      <a (click)="removeScheduleWed(matter)"><i class="ion-close-round"></i></a>
+                      <a (click)="scheduleWed = removeSchedule(matter, scheduleWed)" *ngIf="isEditing"><i class="ion-close-round"></i></a>
                     </div>
                   </ba-card>
                 </div>
 
                 <div class="col-md-3">
-                  <ba-card title="Thursday" baCardClass="with-scroll" dnd-droppable (onDropSuccess)="addToScheduleThu($event)">
+                  <ba-card title="Thursday" baCardClass="with-scroll" dnd-droppable (onDropSuccess)="addToSchedule($event, scheduleThu)">
                     <div class="drag_default" *ngIf="scheduleThu.length == 0">Drag here!</div>
                     <div *ngFor="let matter of scheduleThu" class="matter">
                       {{matter.matterName}}
-                      <a (click)="removeScheduleTue(matter)"><i class="ion-close-round"></i></a>
+                      <a (click)="scheduleThu = removeSchedule(matter, scheduleThu)" *ngIf="isEditing"><i class="ion-close-round"></i></a>
                     </div>
                   </ba-card>
                 </div>
 
                 <div class="col-md-3">
-                  <ba-card title="Friday" baCardClass="with-scroll" dnd-droppable (onDropSuccess)="addToScheduleFri($event)">
+                  <ba-card title="Friday" baCardClass="with-scroll" dnd-droppable (onDropSuccess)="addToSchedule($event, scheduleFri)">
                     <div class="drag_default" *ngIf="scheduleFri.length == 0">Drag here!</div>
                     <div *ngFor="let matter of scheduleFri" class="matter">
                       {{matter.matterName}}
-                      <a (click)="removeScheduleFri(matter)"><i class="ion-close-round"></i></a>
+                      <a (click)="scheduleFri = removeSchedule(matter, scheduleFri)" *ngIf="isEditing"><i class="ion-close-round"></i></a>
                     </div>
                   </ba-card>
                 </div>
 
                 <div class="col-md-3">
-                  <ba-card title="Saturday" baCardClass="with-scroll" dnd-droppable (onDropSuccess)="addToScheduleSat($event)">
+                  <ba-card title="Saturday" baCardClass="with-scroll" dnd-droppable (onDropSuccess)="addToSchedule($event, scheduleSat)">
                     <div class="drag_default" *ngIf="scheduleSat.length == 0">Drag here!</div>
                     <div *ngFor="let matter of scheduleSat" class="matter">
                       {{matter.matterName}}
-                      <a (click)="removeScheduleSat(matter)"><i class="ion-close-round"></i></a>
+                      <a (click)="scheduleSat = removeSchedule(matter, scheduleSat)" *ngIf="isEditing"><i class="ion-close-round"></i></a>
                     </div>
                   </ba-card>
                 </div>
 
                 <div class="col-md-3">
-                  <ba-card title="Sunday" baCardClass="with-scroll" dnd-droppable (onDropSuccess)="addToScheduleSun($event)">
+                  <ba-card title="Sunday" baCardClass="with-scroll" dnd-droppable (onDropSuccess)="addToSchedule($event, scheduleSun)">
                     <div class="drag_default" *ngIf="scheduleSun.length == 0">Drag here!</div>
                     <div *ngFor="let matter of scheduleSun" class="matter">
                       {{matter.matterName}}
-                      <a (click)="removeScheduleSun(matter)"><i class="ion-close-round"></i></a>
+                      <a (click)="scheduleSun = removeSchedule(matter, scheduleSun)" *ngIf="isEditing"><i class="ion-close-round"></i></a>
                     </div>
                   </ba-card>
                 </div>
@@ -170,19 +170,23 @@
               <div class="row">
                 <div class="col-12" *ngIf="isEditing">
                   <ba-card>
-                    <div class="form-horizontal">
-                      <div class="input-group">
-                        <input type="search" class="form-control" id="input01" placeholder="{{'form.search' | translate}}">
-                        <button type="button" class="btn btn-success btn-icon"><i class="ion-plus-round"></i> Add</button>
+                    <div class="form-horizontal row">
+                      <div class="input-group col-xs-12">
+                        <input type="search" class="form-control" id="input01" #studentSearchField (keyup)="searchStudent($event.target.value)" placeholder="{{'form.search' | translate}}">
                       </div>
+                      <ul class="search-list" *ngIf="!id && searchStudents && searchStudents.length > 0">
+                        <li *ngFor="let studentSearch of searchStudents">
+                          <a (click)="selectStudentSearch(studentSearch)">
+                            {{studentSearch.person.firstName + " " + studentSearch.person.lastName}}
+                            <img src="{{ ( (!studentSearch.person.picture ? 'default' : studentSearch.person.picture) | baProfilePicture ) }}">
+                          </a>
+                        </li>
+                      </ul>
                     </div>
                   </ba-card>
                 </div>
-                <div class="col-12 col-md-6">
-                  <!--<student-card></student-card>-->
-                </div>
-                <div class="col-12 col-md-6">
-                  <!--<student-card></student-card>-->
+                <div class="col-12 col-md-6" *ngFor="let classRoomStudent of classRoomStudents">
+                  <student-card [student]='classRoomStudent' [allowRemove]="isEditing ? true : false" (onRemove)="removeClassRoomStudent($event)"></student-card>
                 </div>
               </div>
             </ba-tab>

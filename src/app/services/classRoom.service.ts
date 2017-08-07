@@ -40,4 +40,10 @@ export class ClassRoomService{
     let url: string = classRoom._links.mainTeacher.href;
     return this.http.get(url);
   }
+
+  getStudents(classRoom: ClassRoom): Observable<any> {
+    let path = classRoom.id + '/students';
+    let url: string = this.resourcePath + (path ? '/' + path : '');
+    return this.http.get(url);
+  }
 }

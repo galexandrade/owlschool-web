@@ -15,6 +15,8 @@ import { StaffService } from "app/services/staff.service";
 import { MatterService } from "app/services/matter.service";
 import { Observable } from "rxjs/Observable";
 import * as _ from "lodash";
+import { Student } from "app/model/student";
+import { StudentService } from "app/services/student.service";
 
 @Component({
   selector: 'app-class',
@@ -25,15 +27,20 @@ export class ClassFormComponent implements OnInit {
   private isEditing: boolean = false;
   classRoom: ClassRoom;
   classRoomId: string;
+  classRoomStudents: Student[];
   allMatters: Matter[] = [];
   allTeachers: Staff[] = [];
   selectedTeacher: Staff;
   selectedMatter: Matter;
   mainTeacher: Staff;
   @ViewChild('mainTeacherField') mainTeacherField;
+  @ViewChild('studentSearchField') studentSearchField;
 
   searchTeachers: Staff[];
   private searchTerms = new Subject<string>();
+
+  searchStudents: Student[];
+  private searchTermsStudents = new Subject<string>();
 
   public form: FormGroup;
   private name: AbstractControl;
@@ -57,6 +64,7 @@ export class ClassFormComponent implements OnInit {
               private classRoomService: ClassRoomService,
               private staffService: StaffService,
               private matterService: MatterService,
+              private studentService: StudentService,
               private toaster: ToasterService,
               private route: ActivatedRoute,
               private router: Router) {
@@ -74,15 +82,16 @@ export class ClassFormComponent implements OnInit {
     this.period = this.form.controls['period'];
     this.mainTeacherForm = this.form.controls['mainTeacherForm'];
     this.selectedMatterForm = this.form.controls['selectedMatterForm'];
+  }
 
-    this.matters.push(new Matter('Math'));
-    this.matters.push(new Matter('Portuguese'));
-    this.matters.push(new Matter('History'));
-    this.matters.push(new Matter('Geography'));
-    this.matters.push(new Matter('English'));
-    this.matters.push(new Matter('Art'));
-    this.matters.push(new Matter('Philosophy'));
-    this.matters.push(new Matter('Religion'));
+  ngOnInit() {
+    this.staffService.searchTeacher(this.searchTerms).subscribe(staffs => {
+      this.searchTeachers = staffs;
+    });
+
+    this.studentService.search(this.searchTermsStudents).subscribe(students => {
+      this.searchStudents = students;
+    });
 
     this.classRoom = new ClassRoom();
     this.mainTeacher = new Staff();
@@ -92,6 +101,8 @@ export class ClassFormComponent implements OnInit {
       this.classRoomService.get(this.classRoomId.toString()).subscribe(
         res => {
           this.classRoom = res;
+          this.classRoom.id = this.classRoomId;
+
           this._state.updatePageName("general.menu.classes", this.classRoom.name);
 
           this.classRoom.classRoomTeacherMatters.forEach(classRoomTeacherMatters => {
@@ -99,11 +110,11 @@ export class ClassFormComponent implements OnInit {
 
             let split = classRoomTeacherMatters._links.teacher.href.split('/');
             let id = split[split.length - 1];
-            getClassRoomTeacherMatters.push(staffService.get(id));
+            getClassRoomTeacherMatters.push(this.staffService.get(id));
 
             split = classRoomTeacherMatters._links.matter.href.split('/');
             id = split[split.length - 1];
-            getClassRoomTeacherMatters.push(matterService.get(id));
+            getClassRoomTeacherMatters.push(this.matterService.get(id));
 
             Observable.forkJoin(getClassRoomTeacherMatters).subscribe(res => {
               this.mattersTeacher.push({
@@ -118,6 +129,10 @@ export class ClassFormComponent implements OnInit {
               this.mainTeacher = res;
             }
           );
+
+          this.getClassRoomStudents();
+
+          this.getClassRoomSchedule();
         }
       );
     }
@@ -134,12 +149,6 @@ export class ClassFormComponent implements OnInit {
     );
   }
 
-  ngOnInit() {
-    this.staffService.searchTeacher(this.searchTerms).subscribe(staffs => {
-      this.searchTeachers = staffs;
-    });
-  }
-
   // Push a search term into the observable stream.
   searchTeacher(term: string): void {
     if(term !== '')
@@ -149,94 +158,38 @@ export class ClassFormComponent implements OnInit {
     }
   }
 
+  // Push a search term into the observable stream.
+  searchStudent(term: string): void {
+    if(term !== '')
+      this.searchTermsStudents.next(term);
+    else{
+      this.searchStudents = [];
+    }
+  }
+
   selectTeacherSearch(teacherSearch: Staff){
     this.mainTeacher = teacherSearch;
     this.mainTeacherField.nativeElement.value = this.mainTeacher.person.firstName + ' ' + this.mainTeacher.person.lastName;
     this.searchTeachers = [];
   }
 
-  addToScheduleMon($event: any) {
-      let newMatter: Matter = $event.dragData;
-
-      if (!this._contain(this.scheduleMon, newMatter)) {
-        this.scheduleMon.push(new Matter(newMatter.matterName));
-      }
+  selectStudentSearch(studentSearch: Student){
+    this.searchStudents = [];
+    this.classRoomStudents.push(studentSearch);
+    this.studentSearchField.nativeElement.value = "";
   }
 
-  removeScheduleMon(matter: Matter) {
-    this.scheduleMon = this.scheduleMon.filter(obj => obj !== matter);
+  addToSchedule($event: any, schedule: Matter[]){
+    let newMatter: Matter = $event.dragData;
+
+    if (!this._contain(schedule, newMatter)) {
+      schedule.push(newMatter);
+    }
   }
 
-  addToScheduleTue($event: any) {
-      let newMatter: Matter = $event.dragData;
-
-      if (!this._contain(this.scheduleTue, newMatter)) {
-        this.scheduleTue.push(new Matter(newMatter.matterName));
-      }
-  }
-
-  removeScheduleTue(matter: Matter) {
-    this.scheduleTue = this.scheduleTue.filter(obj => obj !== matter);
-  }
-
-  addToScheduleWed($event: any) {
-      let newMatter: Matter = $event.dragData;
-
-      if (!this._contain(this.scheduleWed, newMatter)) {
-        this.scheduleWed.push(new Matter(newMatter.matterName));
-      }
-  }
-
-  removeScheduleWed(matter: Matter) {
-    this.scheduleWed = this.scheduleWed.filter(obj => obj !== matter);
-  }
-
-  addToScheduleThu($event: any) {
-      let newMatter: Matter = $event.dragData;
-
-      if (!this._contain(this.scheduleThu, newMatter)) {
-        this.scheduleThu.push(new Matter(newMatter.matterName));
-      }
-  }
-
-  removeScheduleThu(matter: Matter) {
-    this.scheduleThu = this.scheduleThu.filter(obj => obj !== matter);
-  }
-
-  addToScheduleFri($event: any) {
-      let newMatter: Matter = $event.dragData;
-
-      if (!this._contain(this.scheduleFri, newMatter)) {
-        this.scheduleFri.push(new Matter(newMatter.matterName));
-      }
-  }
-
-  removeScheduleFri(matter: Matter) {
-    this.scheduleFri = this.scheduleFri.filter(obj => obj !== matter);
-  }
-
-  addToScheduleSat($event: any) {
-      let newMatter: Matter = $event.dragData;
-
-      if (!this._contain(this.scheduleSat, newMatter)) {
-        this.scheduleSat.push(new Matter(newMatter.matterName));
-      }
-  }
-
-  removeScheduleSat(matter: Matter) {
-    this.scheduleSat = this.scheduleSat.filter(obj => obj !== matter);
-  }
-
-  addToScheduleSun($event: any) {
-      let newMatter: Matter = $event.dragData;
-
-      if (!this._contain(this.scheduleSun, newMatter)) {
-        this.scheduleSun.push(new Matter(newMatter.matterName));
-      }
-  }
-
-  removeScheduleSun(matter: Matter) {
-    this.scheduleSun = this.scheduleSun.filter(obj => obj !== matter);
+  removeSchedule(matter: Matter, schedule: Matter[]): Matter[] {
+    console.log(schedule);
+    return schedule.filter(obj => obj !== matter);
   }
 
   private _contain(matters: Matter[], matter: Matter): boolean {
@@ -251,6 +204,8 @@ export class ClassFormComponent implements OnInit {
   onSubmit(values: Object): void{
     this.classRoom.mainTeacher = this.mainTeacher._links.self.href;
     this.updateClassRoomTeacherMatters();
+    this.updateSchedule();
+    this.updateStudents();
     console.log(this.classRoom);
     if(this.classRoomId){
       this.classRoomService.patch(this.classRoomId.toString(), this.classRoom).subscribe(
@@ -301,6 +256,7 @@ export class ClassFormComponent implements OnInit {
     });
     if(!exist)
       this.mattersTeacher.push(tm);
+    console.log(tm);
   }
 
   removeMatterTeacher(matterTeacher){
@@ -326,6 +282,139 @@ export class ClassFormComponent implements OnInit {
           matter: ele.matter._links.self.href
       });
     });
+  }
+
+  updateSchedule(){
+    let mon: string[] = [];
+    this.scheduleMon.forEach(matter => {
+      mon.push(matter._links.self.href);
+    });
+
+    let tue: string[] = [];
+    this.scheduleTue.forEach(matter => {
+      tue.push(matter._links.self.href);
+    });
+
+    let wed: string[] = [];
+    this.scheduleWed.forEach(matter => {
+      wed.push(matter._links.self.href);
+    });
+
+    let thu: string[] = [];
+    this.scheduleThu.forEach(matter => {
+      thu.push(matter._links.self.href);
+    });
+
+    let fri: string[] = [];
+    this.scheduleThu.forEach(matter => {
+      fri.push(matter._links.self.href);
+    });
+
+    let sat: string[] = [];
+    this.scheduleSat.forEach(matter => {
+      sat.push(matter._links.self.href);
+    });
+
+    let sun: string[] = [];
+    this.scheduleSun.forEach(matter => {
+      sun.push(matter._links.self.href);
+    });
+
+    this.classRoom.schedule = {
+      monday: mon,
+      tuesday: tue,
+      wednesday: wed,
+      thursday: thu,
+      friday: fri,
+      saturday: sat,
+      sunday: sun
+    };
+  }
+
+  updateStudents(){
+    this.classRoomStudents.forEach(student => {
+      this.classRoom.students.push(student._links.self.href);
+    });
+    console.log(this.classRoom.students);
+  }
+
+  getClassRoomSchedule(){
+    if(!this.classRoom.schedule._links)
+      return;
+
+    let callback = (link, schedule) => {
+      let split = link.split('/');
+      let id = split[split.length - 1];
+      this.matterService.get(id).subscribe(matter => schedule.push(matter));
+    };
+
+    if(this.classRoom.schedule._links.monday){
+      if(this.classRoom.schedule._links.monday.length)
+        this.classRoom.schedule._links.monday.forEach(matterLink => callback(matterLink.href, this.scheduleMon));
+      else
+        callback(this.classRoom.schedule._links.monday.href, this.scheduleMon);
+    }
+
+    if(this.classRoom.schedule._links.tuesday){
+      if(this.classRoom.schedule._links.tuesday.length)
+        this.classRoom.schedule._links.tuesday.forEach(matterLink => callback(matterLink.href, this.scheduleTue));
+      else
+        callback(this.classRoom.schedule._links.tuesday.href, this.scheduleTue);
+    }
+
+    if(this.classRoom.schedule._links.wednesday){
+      if(this.classRoom.schedule._links.wednesday.length)
+        this.classRoom.schedule._links.wednesday.forEach(matterLink => callback(matterLink.href, this.scheduleWed));
+      else
+        callback(this.classRoom.schedule._links.wednesday.href, this.scheduleWed);
+    }
+
+    if(this.classRoom.schedule._links.thursday){
+      if(this.classRoom.schedule._links.thursday.length)
+        this.classRoom.schedule._links.thursday.forEach(matterLink => callback(matterLink.href, this.scheduleThu));
+      else
+        callback(this.classRoom.schedule._links.thursday.href, this.scheduleThu);
+    }
+
+    if(this.classRoom.schedule._links.friday){
+      if(this.classRoom.schedule._links.friday.length)
+        this.classRoom.schedule._links.friday.forEach(matterLink => callback(matterLink.href, this.scheduleFri));
+      else
+        callback(this.classRoom.schedule._links.friday.href, this.scheduleFri);
+    }
+
+    if(this.classRoom.schedule._links.saturday){
+      if(this.classRoom.schedule._links.saturday.length)
+        this.classRoom.schedule._links.saturday.forEach(matterLink => callback(matterLink.href, this.scheduleSat));
+      else
+        callback(this.classRoom.schedule._links.saturday.href, this.scheduleSat);
+    }
+
+    if(this.classRoom.schedule._links.sunday){
+      if(this.classRoom.schedule._links.sunday.length)
+        this.classRoom.schedule._links.sunday.forEach(matterLink => callback(matterLink.href, this.scheduleSun));
+      else
+        callback(this.classRoom.schedule._links.sunday.href, this.scheduleSun);
+    }
+  }
+
+  getClassRoomStudents(){
+    this.classRoomService.getStudents(this.classRoom).subscribe((res) => {
+      this.classRoom.students = [];
+      this.classRoomStudents = res._embedded.students;
+    });
+  }
+
+  removeClassRoomStudent(student: Student){
+    let idx_remove: number;
+    let idx: number = 0;
+    this.classRoomStudents.forEach(stdnt => {
+      if(stdnt._links.self.href === student._links.self.href)
+        idx_remove = idx;
+      idx++;
+    });
+
+    this.classRoomStudents.splice(idx_remove, 1);
   }
 
   goBack(){

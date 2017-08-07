@@ -4,7 +4,8 @@ export class ClassRoom{
     period: string;
     picture: string;
     classRoomTeacherMatters: any[];
-    schedule: {_links: any}[];
+    schedule: any
+    students: any[];
 
     mainTeacher: string;
     _links: any;

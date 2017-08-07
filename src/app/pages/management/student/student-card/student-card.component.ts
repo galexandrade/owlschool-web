@@ -10,10 +10,16 @@ import { Student } from '../../../../model/student';
 })
 export class StudentCardComponent implements OnInit {
   @Input() student: Student;
+  @Input() allowRemove: boolean = false;
+  @Output() onRemove: EventEmitter<Student> = new EventEmitter();
 
   constructor() { }
 
   ngOnInit() {
     console.info('STUDENT_CARD', this.student);
+  }
+
+  remove(){
+    this.onRemove.emit(this.student);
   }
 }

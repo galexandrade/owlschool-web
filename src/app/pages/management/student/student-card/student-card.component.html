@@ -17,6 +17,7 @@
       </div>
       <div class="col-4">
         <img src="{{ ( (!student.person.picture ? 'default' : student.person.picture) | baProfilePicture ) }}">
+        <button class="btn btn-danger btn-block" *ngIf="allowRemove" (click)="remove()" translate>form.remove</button>
       </div>
     </div>
   </ba-card>

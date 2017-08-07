@@ -46,4 +46,15 @@ export class StudentService{
     return this.http.get(url);
   }
 
+  search(terms: Observable<string>){
+    return terms.debounceTime(400)
+      .distinctUntilChanged()
+      .switchMap(term => this.searchEntries(term));
+  }
+
+  searchEntries(term) {
+    return this.get('search/findByName', {'name': term})
+        .map(res => res._embedded.students);
+  }
+
 }
