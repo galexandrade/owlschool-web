@@ -30,7 +30,8 @@ import { ParentCardComponent } from './student/parent-card/parent-card.component
     routing,
     DndModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ],
   entryComponents: [
     Management

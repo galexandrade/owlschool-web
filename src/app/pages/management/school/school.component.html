@@ -3,8 +3,8 @@
       <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)">
         <ba-card baCardClass="with-scroll">
           <div class="pull-right action-menu">
-            <button type="submit" class="btn btn-success" translate>form.save</button>
-            <button class="btn btn-danger" translate>form.cancel</button>
+            <button type="submit" class="btn btn-success" [disabled]="!form.valid" translate>form.save</button>
+            <button type="button" class="btn btn-danger" (click)="goBack()" translate>form.cancel</button>
           </div>
           <ba-tabs>
             <ba-tab tabTitle="{{'tabs.general' | translate}}">
@@ -12,42 +12,43 @@
                 <div class="col-md-6 offset-md-3">
                     <div class="form-group">
                       <label for="name" translate>school.name</label>
-                      <input [formControl]="name" [(ngModel)]="school && school.name" type="text" class="form-control" id="name" placeholder="{{'school.name' | translate}}">
+                      <input formControlName="name" [ngModel]="school && school.name" type="text" class="form-control" id="name" placeholder="{{'school.name' | translate}}">
                     </div>
                     <div class="form-group">
                       <label for="companyRegistration" translate>school.company_registration</label>
-                      <input [formControl]="companyRegistration"  [(ngModel)]="school && school.companyRegistration" type="text" class="form-control" id="registration" placeholder="{{'school.company_registration' | translate}}">
+                      <input formControlName="companyRegistration"  [ngModel]="school && school.companyRegistration" type="text" class="form-control" id="registration" placeholder="{{'school.company_registration' | translate}}">
                     </div>
                 </div>
               </div>
             </ba-tab>
 
             <ba-tab tabTitle="{{'tabs.contact' | translate}}">
-              <div class="row">
+              <div class="row" formGroupName="contact">
                 <div class="col-md-6 offset-md-3">
                   <div class="form-group">
                     <label for="email" translate>contact.email</label>
-                    <input [formControl]="email" [(ngModel)]="school && school.contact.email" type="email" class="form-control" id="email" placeholder="{{'contact.email' | translate}}">
+                    <input formControlName="email" [ngModel]="school && school.contact.email" type="email" class="form-control" id="email" placeholder="{{'contact.email' | translate}}">
+                    <span class="help-block text-danger" *ngIf="!form.get('contact.email').valid && form.get('contact.email').touched">Email inválido</span>
                   </div>
                   <div class="form-group">
                     <label for="phone" translate>contact.phone</label>
-                    <input [formControl]="phone" [(ngModel)]="school && school.contact.phone" type="text" class="form-control" id="phone" placeholder="{{'contact.phone' | translate}}">
+                    <input formControlName="phone" [ngModel]="school && school.contact.phone" type="text" class="form-control" id="phone" placeholder="{{'contact.phone' | translate}}">
                   </div>
                   <div class="form-group">
                     <label for="website" translate>contact.website</label>
-                    <input [formControl]="website" [(ngModel)]="school && school.contact.website" type="text" class="form-control" id="website" placeholder="{{'contact.website' | translate}}">
+                    <input formControlName="website" [ngModel]="school && school.contact.website" type="text" class="form-control" id="website" placeholder="{{'contact.website' | translate}}">
                   </div>
                 </div>
               </div>
             </ba-tab>
 
             <ba-tab tabTitle="{{'tabs.location' | translate}}">
-              <div class="row">
+              <div class="row" formGroupName="address">
                 <div class="col-md-6 offset-md-3">
                   <div class="form-group row">
                     <div class="col-sm-6">
                       <label for="country" translate>location.country</label>
-                      <select class="form-control" id="country">
+                      <select formControlName="country" [ngModel]="school && school.address.country" class="form-control" id="country">
                         <option value="BLR">Brazil</option>
                         <option value="MEX">Mexico</option>
                         <option value="ARG">Argentina</option>
@@ -56,7 +57,7 @@
                     </div>
                     <div class="col-sm-6">
                       <label for="state" translate>location.state</label>
-                      <select class="form-control" id="state">
+                      <select formControlName="state" [ngModel]="school && school.address.state" class="form-control" id="state">
                         <option value="PR">Paraná</option>
                         <option value="SP">São Paulo</option>
                         <option value="SC">Santa Catarina</option>
@@ -66,21 +67,21 @@
                   <div class="form-group row">
                     <div class="col-sm-6">
                       <label for="postal_code" translate>location.postal_code</label>
-                      <input [formControl]="postalCode" [(ngModel)]="school && school.address.postalCode" type="text" class="form-control" id="postal_code" placeholder="{{'location.postal_code' | translate}}">
+                      <input formControlName="postalCode" [ngModel]="school && school.address.postalCode" type="text" class="form-control" id="postal_code" placeholder="{{'location.postal_code' | translate}}">
                     </div>
                     <div class="col-sm-6">
                       <label for="city" translate>location.city</label>
-                      <input [formControl]="city" [(ngModel)]="school && school.address.city" type="text" class="form-control" id="city" placeholder="{{'location.city' | translate}}">
+                      <input formControlName="city" [ngModel]="school && school.address.city" type="text" class="form-control" id="city" placeholder="{{'location.city' | translate}}">
                     </div>
                   </div>
                   <div class="form-group">
                     <label for="address" translate>location.address</label>
-                    <input [formControl]="address" [(ngModel)]="school && school.address.address" type="text" class="form-control" id="address" placeholder="{{'location.address' | translate}}">
+                    <input formControlName="address" [ngModel]="school && school.address.address" type="text" class="form-control" id="address" placeholder="{{'location.address' | translate}}">
                   </div>
                   <div class="form-group row">
                     <div class="col-sm-6">
                       <label for="number" translate>location.number</label>
-                      <input [formControl]="number" [(ngModel)]="school && school.address.number" type="number" class="form-control" id="number" placeholder="{{'location.number' | translate}}">
+                      <input formControlName="number" [ngModel]="school && school.address.number" type="number" class="form-control" id="number" placeholder="{{'location.number' | translate}}">
                     </div>
                   </div>
                 </div>
